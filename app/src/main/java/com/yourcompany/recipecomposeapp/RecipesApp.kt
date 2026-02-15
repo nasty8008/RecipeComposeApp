@@ -36,19 +36,22 @@ fun RecipesApp() {
                 )
             }
         ) { paddingValues ->
-            Text("Recipes App", modifier = Modifier.padding(paddingValues))
             when (currentScreen) {
-                ScreenId.CATEGORIES -> CategoriesScreen()
-                ScreenId.FAVORITES -> FavoritesScreen()
+                ScreenId.CATEGORIES -> CategoriesScreen(
+                    modifier = Modifier.padding(paddingValues)
+                )
+                ScreenId.FAVORITES -> FavoritesScreen(
+                    modifier = Modifier.padding(paddingValues)
+                )
             }
         }
     }
 }
 
 @Composable
-fun CategoriesScreen() {
+fun CategoriesScreen(modifier: Modifier) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -60,9 +63,9 @@ fun CategoriesScreen() {
 }
 
 @Composable
-fun FavoritesScreen() {
+fun FavoritesScreen(modifier: Modifier) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Text(
