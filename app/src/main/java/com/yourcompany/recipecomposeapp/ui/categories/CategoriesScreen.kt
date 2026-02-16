@@ -12,11 +12,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.unit.dp
+import com.yourcompany.recipecomposeapp.ui.theme.Dimens
 
 @Composable
 fun ScreenHeader(title: String, imageId: Int) {
@@ -24,7 +23,7 @@ fun ScreenHeader(title: String, imageId: Int) {
         contentAlignment = Alignment.TopCenter,
         modifier = Modifier
             .fillMaxWidth()
-            .height(260.dp)
+            .height(Dimens.HeaderHeight)
     ) {
         Image(
             bitmap = ImageBitmap.imageResource(imageId),
@@ -35,14 +34,15 @@ fun ScreenHeader(title: String, imageId: Int) {
         Text(
             text = title,
             style = MaterialTheme.typography.displayLarge,
+            color = MaterialTheme.colorScheme.primary,
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .padding(16.dp)
+                .padding(Dimens.HeaderTextPadding)
                 .background(
-                    color = Color.White,
-                    shape = RoundedCornerShape(8.dp)
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = RoundedCornerShape(Dimens.HeaderTextCornerRadius)
                 )
-                .padding(10.dp)
+                .padding(Dimens.HeaderTextInnerPadding)
         )
     }
 }

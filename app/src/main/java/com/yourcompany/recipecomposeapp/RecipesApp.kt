@@ -54,7 +54,7 @@ fun RecipesApp() {
 }
 
 @Composable
-fun CategoriesScreen(modifier: Modifier) {
+fun CategoriesScreen(modifier: Modifier = Modifier) {
     Column(
         modifier.fillMaxSize()
     ) {
@@ -63,7 +63,7 @@ fun CategoriesScreen(modifier: Modifier) {
             R.drawable.categories_header
         )
         LazyColumn(
-            modifier = Modifier
+            modifier
                 .fillMaxWidth()
                 .weight(1f)
         ) {
@@ -80,7 +80,7 @@ fun CategoriesScreen(modifier: Modifier) {
 }
 
 @Composable
-fun FavoritesScreen(modifier: Modifier) {
+fun FavoritesScreen(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
