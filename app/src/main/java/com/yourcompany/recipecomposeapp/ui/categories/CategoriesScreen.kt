@@ -1,13 +1,13 @@
 package com.yourcompany.recipecomposeapp.ui.categories
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,18 +31,19 @@ fun ScreenHeader(title: String, imageId: Int) {
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxWidth()
         )
-        Text(
-            text = title,
-            style = MaterialTheme.typography.displayLarge,
-            color = MaterialTheme.colorScheme.primary,
+        Surface(
+            shape = RoundedCornerShape(Dimens.HeaderTextCornerRadius),
+            color = MaterialTheme.colorScheme.surface,
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .padding(Dimens.HeaderTextPadding)
-                .background(
-                    color = MaterialTheme.colorScheme.surface,
-                    shape = RoundedCornerShape(Dimens.HeaderTextCornerRadius)
-                )
-                .padding(Dimens.HeaderTextInnerPadding)
-        )
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.displayLarge,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(Dimens.HeaderTextInnerPadding)
+            )
+        }
     }
 }
