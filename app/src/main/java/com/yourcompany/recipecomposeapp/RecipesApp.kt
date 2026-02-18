@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.yourcompany.recipecomposeapp.ui.categories.CategoriesScreen
 import com.yourcompany.recipecomposeapp.ui.favorites.FavoritesScreen
+import com.yourcompany.recipecomposeapp.ui.recipes.RecipesScreen
 import com.yourcompany.recipecomposeapp.ui.navigation.BottomNavigation
 import com.yourcompany.recipecomposeapp.ui.theme.RecipeComposeAppTheme
 
@@ -37,6 +38,9 @@ fun RecipesApp() {
                     modifier = Modifier.padding(paddingValues)
                 )
                 ScreenId.FAVORITES -> FavoritesScreen(
+                    modifier = Modifier.padding(paddingValues)
+                )
+                ScreenId.RECIPES -> RecipesScreen(
                     modifier = Modifier.padding(paddingValues)
                 )
             }
