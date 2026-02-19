@@ -8,10 +8,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.yourcompany.recipecomposeapp.R
 import com.yourcompany.recipecomposeapp.ScreenId
 import com.yourcompany.recipecomposeapp.core.ui.ScreenHeader
+import com.yourcompany.recipecomposeapp.ui.theme.Dimens
 
 @Composable
 fun CategoriesScreen(modifier: Modifier = Modifier) {
@@ -32,7 +32,7 @@ fun CategoriesScreen(modifier: Modifier = Modifier) {
                     text = "Категория ${index + 1}",
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp)
+                        .padding(Dimens.HeaderTextPadding)
                 )
             }
         }

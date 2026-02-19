@@ -8,10 +8,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.yourcompany.recipecomposeapp.R
 import com.yourcompany.recipecomposeapp.ScreenId
 import com.yourcompany.recipecomposeapp.core.ui.ScreenHeader
+import com.yourcompany.recipecomposeapp.ui.theme.Dimens
 
 @Composable
 fun RecipesScreen(modifier: Modifier = Modifier) {
@@ -20,12 +20,12 @@ fun RecipesScreen(modifier: Modifier = Modifier) {
     ) {
         ScreenHeader(
             title = ScreenId.RECIPES.displayName,
-            imageId = R.drawable.bcg_categories
+            imageId = R.drawable.bcg_recipes_list
         )
         Text(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(Dimens.HeaderTextPadding),
             text = "Скоро здесь будут рецепты",
             textAlign = TextAlign.Center
         )
