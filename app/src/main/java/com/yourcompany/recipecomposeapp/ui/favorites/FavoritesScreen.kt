@@ -1,4 +1,4 @@
-package com.yourcompany.recipecomposeapp.ui.categories
+package com.yourcompany.recipecomposeapp.ui.favorites
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,14 +13,15 @@ import com.yourcompany.recipecomposeapp.R
 import com.yourcompany.recipecomposeapp.ScreenId
 import com.yourcompany.recipecomposeapp.core.ui.ScreenHeader
 
+
 @Composable
-fun CategoriesScreen(modifier: Modifier = Modifier) {
+fun FavoritesScreen(modifier: Modifier = Modifier) {
     Column(
         modifier.fillMaxSize()
     ) {
         ScreenHeader(
-            ScreenId.CATEGORIES.displayName,
-            R.drawable.bcg_categories
+            ScreenId.FAVORITES.displayName,
+            R.drawable.bcg_favorites
         )
         LazyColumn(
             modifier

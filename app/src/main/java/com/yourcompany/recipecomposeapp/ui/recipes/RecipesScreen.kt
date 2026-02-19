@@ -1,40 +1,33 @@
-package com.yourcompany.recipecomposeapp.ui.categories
+package com.yourcompany.recipecomposeapp.ui.recipes
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.yourcompany.recipecomposeapp.R
 import com.yourcompany.recipecomposeapp.ScreenId
 import com.yourcompany.recipecomposeapp.core.ui.ScreenHeader
 
 @Composable
-fun CategoriesScreen(modifier: Modifier = Modifier) {
+fun RecipesScreen(modifier: Modifier = Modifier) {
     Column(
         modifier.fillMaxSize()
     ) {
         ScreenHeader(
-            ScreenId.CATEGORIES.displayName,
-            R.drawable.bcg_categories
+            title = ScreenId.RECIPES.displayName,
+            imageId = R.drawable.bcg_categories
         )
-        LazyColumn(
-            modifier
+        Text(
+            modifier = modifier
                 .fillMaxWidth()
-                .weight(1f)
-        ) {
-            items(10) { index ->
-                Text(
-                    text = "Категория ${index + 1}",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                )
-            }
-        }
+                .padding(16.dp),
+            text = "Скоро здесь будут рецепты",
+            textAlign = TextAlign.Center
+        )
     }
 }
