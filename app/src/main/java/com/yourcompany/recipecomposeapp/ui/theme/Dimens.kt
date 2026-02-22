@@ -7,4 +7,7 @@ object Dimens {
     val HeaderTextPadding = 16.dp
     val HeaderTextInnerPadding = 10.dp
     val HeaderTextCornerRadius = 8.dp
+
+    val CardTextPadding = 10.dp
+    val CardHeight = 220.dp
 }
