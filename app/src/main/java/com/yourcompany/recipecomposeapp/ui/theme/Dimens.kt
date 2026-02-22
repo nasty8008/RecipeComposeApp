@@ -11,4 +11,5 @@ object Dimens {
     val CardTextPadding = 10.dp
     val CardHeight = 250.dp
     val CardPadding = 10.dp
+    val CardShadow = 3.dp
 }

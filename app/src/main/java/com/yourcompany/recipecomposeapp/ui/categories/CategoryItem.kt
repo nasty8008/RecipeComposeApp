@@ -27,6 +27,9 @@ import com.yourcompany.recipecomposeapp.ui.theme.Dimens
 fun CategoryItem(onClick: () -> Unit = {}, imageUrl: String, title: String, description: String) {
     Card(
         onClick = onClick,
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = Dimens.CardShadow
+        ),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
         ),
