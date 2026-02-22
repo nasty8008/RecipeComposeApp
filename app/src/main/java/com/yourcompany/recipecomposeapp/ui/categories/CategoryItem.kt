@@ -19,7 +19,7 @@ import com.yourcompany.recipecomposeapp.ui.categories.model.toUiModel
 import com.yourcompany.recipecomposeapp.ui.theme.Dimens
 
 @Composable
-fun CategoryItem(onClick: () -> Unit, imageId: Int, title: String, description: String) {
+fun CategoryItem(onClick: () -> Unit = {}, imageId: Int, title: String, description: String) {
     Card(
         onClick = onClick,
         colors = CardDefaults.cardColors(
@@ -28,6 +28,7 @@ fun CategoryItem(onClick: () -> Unit, imageId: Int, title: String, description: 
         modifier = Modifier
             .fillMaxWidth()
             .height(Dimens.CardHeight)
+            .padding(Dimens.CardPadding)
     ) {
         Column {
             AsyncImage(
