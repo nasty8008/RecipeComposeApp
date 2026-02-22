@@ -11,15 +11,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
+import coil3.request.error
+import coil3.request.placeholder
 import com.yourcompany.recipecomposeapp.R
 import com.yourcompany.recipecomposeapp.data.repository.getCategories
 import com.yourcompany.recipecomposeapp.ui.categories.model.toUiModel
 import com.yourcompany.recipecomposeapp.ui.theme.Dimens
 
 @Composable
-fun CategoryItem(onClick: () -> Unit = {}, imageId: Int, title: String, description: String) {
+fun CategoryItem(onClick: () -> Unit = {}, imageUrl: String, title: String, description: String) {
     Card(
         onClick = onClick,
         colors = CardDefaults.cardColors(
@@ -33,7 +38,12 @@ fun CategoryItem(onClick: () -> Unit = {}, imageId: Int, title: String, descript
         Column {
             AsyncImage(
                 modifier = Modifier.weight(1f),
-                model = imageId,
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(imageUrl)
+                    .crossfade(true)
+                    .placeholder(R.drawable.img_placeholder)
+                    .error(R.drawable.img_error)
+                    .build(),
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )
@@ -66,7 +76,7 @@ fun CategoryItemPreview() {
     MaterialTheme {
         CategoryItem(
             onClick = {},
-            imageId = R.drawable.bcg_categories,
+            imageUrl = getCategories()[0].toUiModel().imageUrl,
             title = getCategories()[0].toUiModel().title,
             description = getCategories()[0].toUiModel().description
         )

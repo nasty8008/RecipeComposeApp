@@ -37,7 +37,7 @@ fun CategoriesScreen(modifier: Modifier = Modifier) {
         ) {
             items(categories) { category ->
                 CategoryItem(
-                    imageId = R.drawable.img_placeholder,
+                    imageUrl = category.imageUrl,
                     title = category.title,
                     description = category.description
                 )
