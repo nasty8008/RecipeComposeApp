@@ -20,13 +20,20 @@ import coil3.request.error
 import coil3.request.placeholder
 import com.yourcompany.recipecomposeapp.R
 import com.yourcompany.recipecomposeapp.data.repository.getCategories
+import com.yourcompany.recipecomposeapp.ui.categories.model.CategoryUiModel
 import com.yourcompany.recipecomposeapp.ui.categories.model.toUiModel
 import com.yourcompany.recipecomposeapp.ui.theme.Dimens
 
 @Composable
-fun CategoryItem(onClick: () -> Unit = {}, imageUrl: String, title: String, description: String) {
+fun CategoryItem(
+    onClick: (CategoryUiModel) -> Unit,
+    category: CategoryUiModel,
+    imageUrl: String,
+    title: String,
+    description: String
+) {
     Card(
-        onClick = onClick,
+        onClick = { onClick(category) },
         elevation = CardDefaults.cardElevation(
             defaultElevation = Dimens.CardShadow
         ),
@@ -78,7 +85,8 @@ fun CategoryItem(onClick: () -> Unit = {}, imageUrl: String, title: String, desc
 fun CategoryItemPreview() {
     MaterialTheme {
         CategoryItem(
-            onClick = {},
+            onClick = { },
+            category = getCategories()[0].toUiModel(),
             imageUrl = getCategories()[0].toUiModel().imageUrl,
             title = getCategories()[0].toUiModel().title,
             description = getCategories()[0].toUiModel().description
