@@ -13,7 +13,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.yourcompany.recipecomposeapp.R
 import com.yourcompany.recipecomposeapp.core.ui.ScreenHeader
 import com.yourcompany.recipecomposeapp.data.repository.getRecipesByCategoryId
@@ -44,7 +43,7 @@ fun RecipesScreen(
             modifier = Modifier
                 .fillMaxSize(),
             contentPadding = PaddingValues(Dimens.CardPadding),
-            verticalArrangement = Arrangement.spacedBy(Dimens.CardPadding)
+            verticalArrangement = Arrangement.spacedBy(Dimens.CardRecipeSpacing)
         ) {
             items(recipes) { recipe ->
                 RecipeItem(
@@ -56,13 +55,4 @@ fun RecipesScreen(
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun RecipesScreenPreview() {
-    RecipesScreen(
-        categoryId = 0,
-        categoryTitle = "БУРГЕРЫ"
-    )
 }
