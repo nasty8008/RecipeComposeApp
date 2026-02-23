@@ -1,20 +1,26 @@
 package com.yourcompany.recipecomposeapp.ui.categories
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Text
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.yourcompany.recipecomposeapp.R
 import com.yourcompany.recipecomposeapp.ScreenId
 import com.yourcompany.recipecomposeapp.core.ui.ScreenHeader
+import com.yourcompany.recipecomposeapp.data.repository.getCategories
+import com.yourcompany.recipecomposeapp.ui.categories.model.CategoryUiModel
+import com.yourcompany.recipecomposeapp.ui.categories.model.toUiModel
 import com.yourcompany.recipecomposeapp.ui.theme.Dimens
 
 @Composable
 fun CategoriesScreen(modifier: Modifier = Modifier) {
+    val categories: List<CategoryUiModel> = getCategories().map { it.toUiModel() }
+    val onCategoryClick: (CategoryUiModel) -> Unit = {}
     Column(
         modifier.fillMaxSize()
     ) {
@@ -22,17 +28,21 @@ fun CategoriesScreen(modifier: Modifier = Modifier) {
             ScreenId.CATEGORIES.displayName,
             R.drawable.bcg_categories
         )
-        LazyColumn(
-            modifier
-                .fillMaxWidth()
-                .weight(1f)
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            modifier = Modifier
+                .fillMaxSize(),
+            contentPadding = PaddingValues(Dimens.CardPadding),
+            verticalArrangement = Arrangement.Top,
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            items(10) { index ->
-                Text(
-                    text = "Категория ${index + 1}",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(Dimens.HeaderTextPadding)
+            items(categories) { category ->
+                CategoryItem(
+                    onClick = { onCategoryClick(category) },
+                    category = category,
+                    imageUrl = category.imageUrl,
+                    title = category.title,
+                    description = category.description
                 )
             }
         }
