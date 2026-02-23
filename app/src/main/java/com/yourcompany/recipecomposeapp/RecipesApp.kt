@@ -41,7 +41,9 @@ fun RecipesApp() {
                     modifier = Modifier.padding(paddingValues)
                 )
                 ScreenId.RECIPES -> RecipesScreen(
-                    modifier = Modifier.padding(paddingValues)
+                    modifier = Modifier.padding(paddingValues),
+                    categoryId = 0,
+                    categoryTitle = "БУРГЕРЫ",
                 )
             }
         }
