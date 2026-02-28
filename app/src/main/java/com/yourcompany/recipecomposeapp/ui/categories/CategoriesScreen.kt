@@ -20,7 +20,7 @@ import com.yourcompany.recipecomposeapp.ui.theme.Dimens
 @Composable
 fun CategoriesScreen(
     modifier: Modifier = Modifier,
-    onCategoryClick: (CategoryUiModel) -> Unit
+    onCategoryClick: (Int) -> Unit
 ) {
     val categories: List<CategoryUiModel> = getCategories().map { it.toUiModel() }
     Column(
@@ -40,7 +40,7 @@ fun CategoriesScreen(
         ) {
             items(categories) { category ->
                 CategoryItem(
-                    onClick = { onCategoryClick(category) },
+                    onClick = { onCategoryClick(category.id) },
                     category = category,
                     imageUrl = category.imageUrl,
                     title = category.title,
