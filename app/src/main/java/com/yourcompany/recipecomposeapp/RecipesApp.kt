@@ -48,10 +48,14 @@ fun RecipesApp() {
                     modifier = Modifier.padding(paddingValues)
                 )
                 ScreenId.RECIPES -> RecipesScreen(
+                    onRecipeClick = {
+                        currentScreen = ScreenId.RECIPE_DETAIL
+                    },
                     modifier = Modifier.padding(paddingValues),
                     categoryId = selectedCategoryId ?: error("Category ID is required"),
                     categoryTitle = selectedCategoryTitle ?: error("Category title is required"),
                 )
+                else -> {}
             }
         }
     }

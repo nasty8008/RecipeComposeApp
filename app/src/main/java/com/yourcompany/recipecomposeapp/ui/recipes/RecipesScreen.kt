@@ -22,6 +22,7 @@ import com.yourcompany.recipecomposeapp.ui.theme.Dimens
 
 @Composable
 fun RecipesScreen(
+    onRecipeClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
     categoryId: Int?,
     categoryTitle: String,
@@ -45,9 +46,9 @@ fun RecipesScreen(
             contentPadding = PaddingValues(Dimens.CardPadding),
             verticalArrangement = Arrangement.spacedBy(Dimens.CardRecipeSpacing)
         ) {
-            items(recipes) { recipe ->
+            items(recipes, key = {it.id}) { recipe ->
                 RecipeItem(
-                    onClick = {  },
+                    onClick = onRecipeClick,
                     recipeId = recipe.id,
                     imageUrl = recipe.imageUrl,
                     title = recipe.title,
