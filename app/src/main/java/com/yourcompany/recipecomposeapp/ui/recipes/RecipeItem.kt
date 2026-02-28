@@ -1,4 +1,4 @@
-package com.yourcompany.recipecomposeapp.ui.categories
+package com.yourcompany.recipecomposeapp.ui.recipes
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,21 +19,17 @@ import coil3.request.crossfade
 import coil3.request.error
 import coil3.request.placeholder
 import com.yourcompany.recipecomposeapp.R
-import com.yourcompany.recipecomposeapp.data.repository.getCategories
-import com.yourcompany.recipecomposeapp.ui.categories.model.CategoryUiModel
-import com.yourcompany.recipecomposeapp.ui.categories.model.toUiModel
 import com.yourcompany.recipecomposeapp.ui.theme.Dimens
 
 @Composable
-fun CategoryItem(
-    onClick: (CategoryUiModel) -> Unit,
-    category: CategoryUiModel,
+fun RecipeItem(
+    onClick: (Int) -> Unit,
+    recipeId: Int,
     imageUrl: String,
     title: String,
-    description: String
 ) {
     Card(
-        onClick = { onClick(category) },
+        onClick = { onClick(recipeId) },
         elevation = CardDefaults.cardElevation(
             defaultElevation = Dimens.CardShadow
         ),
@@ -42,10 +38,10 @@ fun CategoryItem(
         ),
         modifier = Modifier
             .fillMaxWidth()
-            .height(Dimens.CardHeightCategory)
+            .height(Dimens.CardHeightRecipe)
             .padding(Dimens.CardPadding)
     ) {
-        Column {
+        Column() {
             AsyncImage(
                 modifier = Modifier.weight(1f),
                 model = ImageRequest.Builder(LocalContext.current)
@@ -57,39 +53,24 @@ fun CategoryItem(
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )
-            Column(
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .padding(Dimens.CardTextPadding)
-            ) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier
-                        .padding(
-                            bottom = Dimens.CardTextPadding
-                        )
-                )
-                Text(
-                    text = description,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSecondary,
-                )
-            }
+            )
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun CategoryItemPreview() {
-    MaterialTheme {
-        CategoryItem(
-            onClick = { },
-            category = getCategories()[0].toUiModel(),
-            imageUrl = getCategories()[0].toUiModel().imageUrl,
-            title = getCategories()[0].toUiModel().title,
-            description = getCategories()[0].toUiModel().description
-        )
-    }
+fun RecipeItemPreview() {
+    RecipeItem(
+        onClick = { },
+        recipeId = 0,
+        imageUrl = "fhdh",
+        title = "ЧИЗБУРГЕР"
+    )
 }

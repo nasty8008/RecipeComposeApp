@@ -1,33 +1,59 @@
 package com.yourcompany.recipecomposeapp.ui.recipes
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import com.yourcompany.recipecomposeapp.R
-import com.yourcompany.recipecomposeapp.ScreenId
 import com.yourcompany.recipecomposeapp.core.ui.ScreenHeader
+import com.yourcompany.recipecomposeapp.data.repository.getRecipesByCategoryId
+import com.yourcompany.recipecomposeapp.ui.recipes.model.RecipeUiModel
+import com.yourcompany.recipecomposeapp.ui.recipes.model.toUiModel
 import com.yourcompany.recipecomposeapp.ui.theme.Dimens
 
 @Composable
-fun RecipesScreen(modifier: Modifier = Modifier) {
+fun RecipesScreen(
+    onRecipeClick: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    categoryId: Int?,
+    categoryTitle: String,
+) {
+    var recipes by remember { mutableStateOf<List<RecipeUiModel>>(emptyList()) }
+    LaunchedEffect(categoryId) {
+        categoryId?.let {
+            recipes = getRecipesByCategoryId(it).map { dto -> dto.toUiModel() }
+        }
+    }
     Column(
         modifier.fillMaxSize()
     ) {
         ScreenHeader(
-            title = ScreenId.RECIPES.displayName,
+            title = categoryTitle,
             imageId = R.drawable.bcg_recipes_list
         )
-        Text(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(Dimens.HeaderTextPadding),
-            text = "Скоро здесь будут рецепты",
-            textAlign = TextAlign.Center
-        )
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize(),
+            contentPadding = PaddingValues(Dimens.CardPadding),
+            verticalArrangement = Arrangement.spacedBy(Dimens.CardRecipeSpacing)
+        ) {
+            items(recipes, key = {it.id}) { recipe ->
+                RecipeItem(
+                    onClick = onRecipeClick,
+                    recipeId = recipe.id,
+                    imageUrl = recipe.imageUrl,
+                    title = recipe.title,
+                )
+            }
+        }
     }
 }

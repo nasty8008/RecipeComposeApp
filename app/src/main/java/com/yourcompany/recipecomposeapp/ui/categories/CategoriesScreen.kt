@@ -18,9 +18,11 @@ import com.yourcompany.recipecomposeapp.ui.categories.model.toUiModel
 import com.yourcompany.recipecomposeapp.ui.theme.Dimens
 
 @Composable
-fun CategoriesScreen(modifier: Modifier = Modifier) {
+fun CategoriesScreen(
+    modifier: Modifier = Modifier,
+    onCategoryClick: (CategoryUiModel) -> Unit
+) {
     val categories: List<CategoryUiModel> = getCategories().map { it.toUiModel() }
-    val onCategoryClick: (CategoryUiModel) -> Unit = {}
     Column(
         modifier.fillMaxSize()
     ) {
