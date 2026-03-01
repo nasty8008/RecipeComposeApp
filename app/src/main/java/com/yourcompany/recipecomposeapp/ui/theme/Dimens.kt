@@ -14,4 +14,9 @@ object Dimens {
     val CardPadding = 10.dp
     val CardShadow = 3.dp
     val CardRecipeSpacing = 2.dp
+
+    val ButtonHeight = 42.dp
+    val SpaceBetweenButtons = 6.dp
+    val ButtonPadding = 16.dp
+    val ButtonIconPadding = 10.dp
 }
