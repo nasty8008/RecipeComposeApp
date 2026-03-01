@@ -11,12 +11,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.yourcompany.recipecomposeapp.Constants.KEY_RECIPE_OBJECT
 import com.yourcompany.recipecomposeapp.data.repository.getCategories
 import com.yourcompany.recipecomposeapp.ui.categories.CategoriesScreen
 import com.yourcompany.recipecomposeapp.ui.categories.model.toUiModel
+import com.yourcompany.recipecomposeapp.ui.details.RecipeDetailsScreen
 import com.yourcompany.recipecomposeapp.ui.favorites.FavoritesScreen
 import com.yourcompany.recipecomposeapp.ui.navigation.BottomNavigation
 import com.yourcompany.recipecomposeapp.ui.recipes.RecipesScreen
+import com.yourcompany.recipecomposeapp.ui.recipes.model.RecipeUiModel
 import com.yourcompany.recipecomposeapp.ui.theme.RecipeComposeAppTheme
 
 @Preview(showBackground = true)
@@ -65,8 +68,11 @@ fun RecipesApp() {
 
                     if (category !== null) {
                         RecipesScreen(
-                            onRecipeClick = {
-                                navController.navigate(Destination.Categories.route)
+                            onRecipeClick = { id, recipe ->
+                                navController.currentBackStackEntry
+                                    ?.savedStateHandle
+                                    ?.set(KEY_RECIPE_OBJECT, recipe)
+                                navController.navigate(Destination.RecipeDetails.createRoute(id))
                             },
                             modifier = Modifier.padding(paddingValues),
                             categoryId = category.id,
@@ -74,6 +80,17 @@ fun RecipesApp() {
                         )
                     } else {
                         Text("Категория не найдена")
+                    }
+                }
+                composable(
+                    route = Destination.RecipeDetails.route
+                ) {
+                    val recipe = navController.previousBackStackEntry
+                        ?.savedStateHandle
+                        ?.get<RecipeUiModel>(KEY_RECIPE_OBJECT)
+
+                    if (recipe != null) {
+                        RecipeDetailsScreen(recipe = recipe)
                     }
                 }
             }
