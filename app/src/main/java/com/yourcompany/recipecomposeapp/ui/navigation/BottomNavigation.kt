@@ -19,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.yourcompany.recipecomposeapp.ScreenId
 import com.yourcompany.recipecomposeapp.ui.theme.Dimens
 
 @Composable
@@ -47,7 +46,7 @@ fun BottomNavigation(
                 )
             ) {
                 Text(
-                    text = ScreenId.CATEGORIES.displayName,
+                    text = "КАТЕГОРИИ",
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.surface
                 )
@@ -68,7 +67,7 @@ fun BottomNavigation(
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = ScreenId.FAVORITES.displayName,
+                        text = "ИЗБРАННОЕ",
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.surface
                     )

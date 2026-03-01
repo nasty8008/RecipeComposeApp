@@ -39,23 +39,23 @@ fun RecipesApp() {
         ) { paddingValues ->
             NavHost(
                 navController = navController,
-                startDestination = "categories"
+                startDestination = Destination.Categories.route
             ) {
-                composable(route = "categories") {
+                composable(route = Destination.Categories.route) {
                     CategoriesScreen(
                         modifier = Modifier.padding(paddingValues),
                         onCategoryClick = { categoryId ->
-                            navController.navigate("recipes/$categoryId")
+                            navController.navigate(Destination.Recipes.createRoute(categoryId))
                         }
                     )
                 }
-                composable(route = "favorites") {
+                composable(route = Destination.Favorites.route) {
                     FavoritesScreen(
                         modifier = Modifier.padding(paddingValues)
                     )
                 }
                 composable(
-                    route = "recipes/{categoryId}",
+                    route = Destination.Recipes.route,
                     arguments = listOf(navArgument("categoryId") { type = NavType.IntType })
                 ) { backStackEntry ->
                     val categoryId = backStackEntry.arguments?.getInt("categoryId") ?: 0
@@ -66,7 +66,7 @@ fun RecipesApp() {
                     if (category !== null) {
                         RecipesScreen(
                             onRecipeClick = {
-                                navController.navigate("")
+                                navController.navigate(Destination.Categories.route)
                             },
                             modifier = Modifier.padding(paddingValues),
                             categoryId = category.id,
