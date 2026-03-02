@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults.cardColors
@@ -20,11 +19,11 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.yourcompany.recipecomposeapp.core.ui.ScreenHeader
 import com.yourcompany.recipecomposeapp.ui.recipes.IngredientItem
 import com.yourcompany.recipecomposeapp.ui.recipes.model.IngredientUiModel
 import com.yourcompany.recipecomposeapp.ui.recipes.model.RecipeUiModel
+import com.yourcompany.recipecomposeapp.ui.theme.Dimens
 import kotlin.math.roundToInt
 
 @Composable
@@ -51,13 +50,13 @@ fun RecipeDetailsScreen(recipe: RecipeUiModel, modifier: Modifier = Modifier) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(Dimens.ColumnContentPadding),
+            verticalArrangement = Arrangement.spacedBy(Dimens.ColumnContentPadding)
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(Dimens.PortionSectionSpacer)
             ) {
                 Text(
                     text = "ИНГРЕДИЕНТЫ",
@@ -78,7 +77,6 @@ fun RecipeDetailsScreen(recipe: RecipeUiModel, modifier: Modifier = Modifier) {
             }
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(16.dp),
                 colors = cardColors(
                     containerColor = MaterialTheme.colorScheme.surface
                 )
@@ -86,14 +84,14 @@ fun RecipeDetailsScreen(recipe: RecipeUiModel, modifier: Modifier = Modifier) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(14.dp)
+                        .padding(Dimens.ColumnContentPadding)
                 ) {
                     scaledIngredients.forEachIndexed { index, ingredient ->
                         IngredientItem(ingredient)
                         if (index != scaledIngredients.lastIndex) {
                             HorizontalDivider(
-                                modifier = Modifier.padding(vertical = 10.dp),
-                                thickness = 1.dp,
+                                modifier = Modifier.padding(vertical = Dimens.HorizontalDividerModifier),
+                                thickness = Dimens.HorizontalDividerThickness,
                                 color = MaterialTheme.colorScheme.outline
                             )
                         }
@@ -107,7 +105,6 @@ fun RecipeDetailsScreen(recipe: RecipeUiModel, modifier: Modifier = Modifier) {
             )
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(16.dp),
                 colors = cardColors(
                     containerColor = MaterialTheme.colorScheme.surface
                 )
@@ -115,7 +112,7 @@ fun RecipeDetailsScreen(recipe: RecipeUiModel, modifier: Modifier = Modifier) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(14.dp)
+                        .padding(Dimens.ColumnContentPadding)
                 ) {
                     recipe.method.forEachIndexed { index, step ->
                         Text(
@@ -125,8 +122,8 @@ fun RecipeDetailsScreen(recipe: RecipeUiModel, modifier: Modifier = Modifier) {
                         )
                         if (index != recipe.method.lastIndex) {
                             HorizontalDivider(
-                                modifier = Modifier.padding(vertical = 10.dp),
-                                thickness = 1.dp,
+                                modifier = Modifier.padding(vertical = Dimens.HorizontalDividerModifier),
+                                thickness = Dimens.HorizontalDividerThickness,
                                 color = MaterialTheme.colorScheme.outline
                             )
                         }

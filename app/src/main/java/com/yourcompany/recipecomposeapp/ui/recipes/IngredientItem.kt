@@ -26,7 +26,7 @@ fun IngredientItem(ingredient: IngredientUiModel) {
             maxLines = 2,
         )
         Text(
-            text = "${ingredient.amount} ${ingredient.unitOfMeasure}",
+            text = "${ingredient.amount.toInt()} ${ingredient.unitOfMeasure}",
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSecondary,
         )
