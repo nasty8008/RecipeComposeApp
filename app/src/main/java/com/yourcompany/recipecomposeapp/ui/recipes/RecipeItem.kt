@@ -12,24 +12,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import coil3.request.error
 import coil3.request.placeholder
 import com.yourcompany.recipecomposeapp.R
+import com.yourcompany.recipecomposeapp.ui.recipes.model.RecipeUiModel
 import com.yourcompany.recipecomposeapp.ui.theme.Dimens
 
 @Composable
 fun RecipeItem(
-    onClick: (Int) -> Unit,
-    recipeId: Int,
-    imageUrl: String,
-    title: String,
+    onClick: (RecipeUiModel) -> Unit,
+    recipe: RecipeUiModel,
 ) {
     Card(
-        onClick = { onClick(recipeId) },
+        onClick = { onClick(recipe) },
         elevation = CardDefaults.cardElevation(
             defaultElevation = Dimens.CardShadow
         ),
@@ -41,11 +39,11 @@ fun RecipeItem(
             .height(Dimens.CardHeightRecipe)
             .padding(Dimens.CardPadding)
     ) {
-        Column() {
+        Column {
             AsyncImage(
                 modifier = Modifier.weight(1f),
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(imageUrl)
+                    .data(recipe.imageUrl)
                     .crossfade(true)
                     .placeholder(R.drawable.img_placeholder)
                     .error(R.drawable.img_error)
@@ -54,7 +52,7 @@ fun RecipeItem(
                 contentScale = ContentScale.Crop
             )
             Text(
-                text = title,
+                text = recipe.title,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
@@ -62,15 +60,4 @@ fun RecipeItem(
             )
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun RecipeItemPreview() {
-    RecipeItem(
-        onClick = { },
-        recipeId = 0,
-        imageUrl = "fhdh",
-        title = "ЧИЗБУРГЕР"
-    )
 }
