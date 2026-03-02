@@ -13,8 +13,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import coil3.Image
-import com.yourcompany.recipecomposeapp.R
 import com.yourcompany.recipecomposeapp.core.ui.ScreenHeader
 import com.yourcompany.recipecomposeapp.data.repository.getRecipesByCategoryId
 import com.yourcompany.recipecomposeapp.ui.recipes.model.RecipeUiModel
