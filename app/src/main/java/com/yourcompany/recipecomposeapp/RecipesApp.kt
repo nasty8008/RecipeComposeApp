@@ -65,7 +65,6 @@ fun RecipesApp() {
                     val category = getCategories()
                         .map { it.toUiModel() }
                         .find { it.id == categoryId }
-
                     if (category !== null) {
                         RecipesScreen(
                             onRecipeClick = { id, recipe ->
@@ -77,6 +76,7 @@ fun RecipesApp() {
                             modifier = Modifier.padding(paddingValues),
                             categoryId = category.id,
                             categoryTitle = category.title,
+                            categoryImage = category.imageUrl,
                         )
                     } else {
                         Text("Категория не найдена")
@@ -90,7 +90,10 @@ fun RecipesApp() {
                         ?.get<RecipeUiModel>(KEY_RECIPE_OBJECT)
 
                     if (recipe != null) {
-                        RecipeDetailsScreen(recipe = recipe)
+                        RecipeDetailsScreen(
+                            recipe = recipe,
+                            modifier = Modifier.padding(paddingValues)
+                        )
                     }
                 }
             }
