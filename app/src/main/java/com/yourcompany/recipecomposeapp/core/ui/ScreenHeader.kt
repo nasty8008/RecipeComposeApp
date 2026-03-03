@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -24,6 +25,17 @@ import com.yourcompany.recipecomposeapp.ui.theme.Dimens
 
 @Composable
 fun ScreenHeader(title: String, image: Any) {
+
+    val context = LocalContext.current
+    val imageRequest = remember(image) {
+        ImageRequest.Builder(context)
+            .data(image)
+            .crossfade(true)
+            .placeholder(R.drawable.img_placeholder)
+            .error(R.drawable.img_error)
+            .build()
+    }
+
     Box(
         contentAlignment = Alignment.TopCenter,
         modifier = Modifier
@@ -32,12 +44,7 @@ fun ScreenHeader(title: String, image: Any) {
     ) {
         AsyncImage(
             modifier = Modifier.fillMaxSize(),
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(image)
-                .crossfade(true)
-                .placeholder(R.drawable.img_placeholder)
-                .error(R.drawable.img_error)
-                .build(),
+            model = imageRequest,
             contentDescription = null,
             contentScale = ContentScale.Crop
         )
