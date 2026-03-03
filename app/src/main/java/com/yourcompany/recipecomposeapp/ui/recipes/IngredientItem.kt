@@ -13,16 +13,19 @@ import com.yourcompany.recipecomposeapp.ui.recipes.model.IngredientUiModel
 import com.yourcompany.recipecomposeapp.ui.recipes.model.toUiModel
 
 @Composable
-fun IngredientItem(ingredient: IngredientUiModel) {
+fun IngredientItem(
+    ingredient: IngredientUiModel,
+    modifier: Modifier = Modifier
+) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
             text = ingredient.name.uppercase(),
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSecondary,
-            modifier = Modifier.weight(1f),
+            modifier = modifier.weight(1f),
             maxLines = 2,
         )
         Text(
