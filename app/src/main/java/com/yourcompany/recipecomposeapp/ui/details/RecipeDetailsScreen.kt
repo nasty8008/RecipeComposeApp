@@ -116,7 +116,7 @@ fun RecipeDetailsScreen(recipe: RecipeUiModel, modifier: Modifier = Modifier) {
                 ) {
                     recipe.method.forEachIndexed { index, step ->
                         Text(
-                            text = step,
+                            text = "${index + 1}. $step",
                             style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.onSecondary,
                         )
