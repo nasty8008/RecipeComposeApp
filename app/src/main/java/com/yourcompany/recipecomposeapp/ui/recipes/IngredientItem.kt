@@ -29,7 +29,10 @@ fun IngredientItem(
             maxLines = 2,
         )
         Text(
-            text = "${ingredient.amount.toInt()} ${ingredient.unitOfMeasure}",
+            text = "${
+                if (ingredient.amount % 1.0 == 0.0) ingredient.amount.toInt()
+                    .toString() else "%.1f".format(ingredient.amount)
+            } ${ingredient.unitOfMeasure}",
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSecondary,
         )
