@@ -1,31 +1,56 @@
 package com.yourcompany.recipecomposeapp
 
+import android.content.Intent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.yourcompany.recipecomposeapp.Constants.DEEP_LINK_SCHEME
 import com.yourcompany.recipecomposeapp.Constants.KEY_RECIPE_OBJECT
 import com.yourcompany.recipecomposeapp.data.repository.getCategories
+import com.yourcompany.recipecomposeapp.data.repository.getRecipeById
+import com.yourcompany.recipecomposeapp.data.utils.shareRecipe
 import com.yourcompany.recipecomposeapp.ui.categories.CategoriesScreen
 import com.yourcompany.recipecomposeapp.ui.categories.model.toUiModel
 import com.yourcompany.recipecomposeapp.ui.details.RecipeDetailsScreen
 import com.yourcompany.recipecomposeapp.ui.favorites.FavoritesScreen
 import com.yourcompany.recipecomposeapp.ui.navigation.BottomNavigation
 import com.yourcompany.recipecomposeapp.ui.recipes.RecipesScreen
-import com.yourcompany.recipecomposeapp.ui.recipes.model.RecipeUiModel
+import com.yourcompany.recipecomposeapp.ui.recipes.model.toUiModel
 import com.yourcompany.recipecomposeapp.ui.theme.RecipeComposeAppTheme
+import kotlinx.coroutines.delay
 
-@Preview(showBackground = true)
 @Composable
-fun RecipesApp() {
+fun RecipesApp(deepLinkIntent: Intent?) {
     val navController = rememberNavController()
+
+    LaunchedEffect(deepLinkIntent) {
+        deepLinkIntent?.data?.let { uri ->
+            val recipeId: Int? = when (uri.scheme) {
+                DEEP_LINK_SCHEME ->
+                    if (uri.host == "recipe") uri.pathSegments[0].toIntOrNull() else null
+
+                "https", "http" ->
+                    if (uri.pathSegments[0] == "recipe") uri.pathSegments[1].toIntOrNull() else null
+
+                else -> null
+            }
+
+            if (recipeId != null) {
+                delay(100)
+                navController.navigate(Destination.RecipeDetails.createRoute(recipeId))
+            }
+        }
+    }
 
     RecipeComposeAppTheme {
         Scaffold(
@@ -83,20 +108,40 @@ fun RecipesApp() {
                     }
                 }
                 composable(
-                    route = Destination.RecipeDetails.route
-                ) {
-                    val recipe = navController.previousBackStackEntry
-                        ?.savedStateHandle
-                        ?.get<RecipeUiModel>(KEY_RECIPE_OBJECT)
+                    route = Destination.RecipeDetails.route,
+                    arguments = listOf(
+                        navArgument(Constants.PARAM_RECIPE_ID) {
+                            type = NavType.IntType
+                        }
+                    )
+                ) { backStackEntry ->
+                    val context = LocalContext.current
+                    val recipeId = backStackEntry.arguments?.getInt(Constants.PARAM_RECIPE_ID) ?: 0
+                    val recipe = getRecipeById(recipeId)
 
-                    if (recipe != null) {
+                    recipe?.let {
                         RecipeDetailsScreen(
-                            recipe = recipe,
-                            modifier = Modifier.padding(paddingValues)
+                            recipe = it.toUiModel(),
+                            modifier = Modifier.padding(paddingValues),
+                            onShareClick = {
+                                shareRecipe(
+                                    context = context,
+                                    recipeId = it.id,
+                                    recipeTitle = it.title
+                                )
+                            }
                         )
                     }
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RecipesAppPreview() {
+    RecipeComposeAppTheme {
+        RecipesApp(deepLinkIntent = null)
     }
 }

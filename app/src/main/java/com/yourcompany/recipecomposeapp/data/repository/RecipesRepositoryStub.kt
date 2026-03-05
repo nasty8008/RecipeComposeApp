@@ -3,6 +3,7 @@ package com.yourcompany.recipecomposeapp.data.repository
 import com.yourcompany.recipecomposeapp.data.model.CategoryDto
 import com.yourcompany.recipecomposeapp.data.model.IngredientDto
 import com.yourcompany.recipecomposeapp.data.model.RecipeDto
+import com.yourcompany.recipecomposeapp.ui.recipes.model.RecipeUiModel
 
 private val categories = listOf(
     CategoryDto(
@@ -198,4 +199,9 @@ fun getRecipesByCategoryId(categoryId: Int): List<RecipeDto> {
         0 -> burgerRecipes
         else -> emptyList()
     }
+}
+
+private val allRecipes = burgerRecipes
+fun getRecipeById(recipeId: Int): RecipeDto? {
+    return allRecipes.firstOrNull { it.id == recipeId }
 }

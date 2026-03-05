@@ -6,6 +6,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -24,7 +28,12 @@ import com.yourcompany.recipecomposeapp.R
 import com.yourcompany.recipecomposeapp.ui.theme.Dimens
 
 @Composable
-fun ScreenHeader(title: String, image: Any) {
+fun ScreenHeader(
+    title: String,
+    image: Any,
+    showShareButton: Boolean = false,
+    onShareClick: (() -> Unit)? = null
+) {
 
     val context = LocalContext.current
     val imageRequest = remember(image) {
@@ -61,6 +70,20 @@ fun ScreenHeader(title: String, image: Any) {
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.padding(Dimens.HeaderTextInnerPadding)
             )
+        }
+        if (showShareButton && onShareClick != null) {
+            IconButton(
+                onClick = onShareClick,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(Dimens.HeaderTextPadding)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Share,
+                    contentDescription = "Share",
+                    tint = MaterialTheme.colorScheme.tertiary
+                )
+            }
         }
     }
 }
