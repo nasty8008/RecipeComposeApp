@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -17,18 +18,17 @@ import com.yourcompany.recipecomposeapp.Constants.DEEP_LINK_SCHEME
 import com.yourcompany.recipecomposeapp.Constants.KEY_RECIPE_OBJECT
 import com.yourcompany.recipecomposeapp.data.repository.getCategories
 import com.yourcompany.recipecomposeapp.data.repository.getRecipeById
+import com.yourcompany.recipecomposeapp.data.utils.shareRecipe
 import com.yourcompany.recipecomposeapp.ui.categories.CategoriesScreen
 import com.yourcompany.recipecomposeapp.ui.categories.model.toUiModel
 import com.yourcompany.recipecomposeapp.ui.details.RecipeDetailsScreen
 import com.yourcompany.recipecomposeapp.ui.favorites.FavoritesScreen
 import com.yourcompany.recipecomposeapp.ui.navigation.BottomNavigation
 import com.yourcompany.recipecomposeapp.ui.recipes.RecipesScreen
-import com.yourcompany.recipecomposeapp.ui.recipes.model.RecipeUiModel
 import com.yourcompany.recipecomposeapp.ui.recipes.model.toUiModel
 import com.yourcompany.recipecomposeapp.ui.theme.RecipeComposeAppTheme
 import kotlinx.coroutines.delay
 
-//@Preview(showBackground = true)
 @Composable
 fun RecipesApp(deepLinkIntent: Intent?) {
     val navController = rememberNavController()
@@ -38,8 +38,10 @@ fun RecipesApp(deepLinkIntent: Intent?) {
             val recipeId: Int? = when (uri.scheme) {
                 DEEP_LINK_SCHEME ->
                     if (uri.host == "recipe") uri.pathSegments[0].toIntOrNull() else null
+
                 "https", "http" ->
                     if (uri.pathSegments[0] == "recipe") uri.pathSegments[1].toIntOrNull() else null
+
                 else -> null
             }
 
@@ -113,18 +115,33 @@ fun RecipesApp(deepLinkIntent: Intent?) {
                         }
                     )
                 ) { backStackEntry ->
+                    val context = LocalContext.current
                     val recipeId = backStackEntry.arguments?.getInt(Constants.PARAM_RECIPE_ID) ?: 0
-
                     val recipe = getRecipeById(recipeId)
 
                     recipe?.let {
                         RecipeDetailsScreen(
                             recipe = it.toUiModel(),
-                            modifier = Modifier.padding(paddingValues)
+                            modifier = Modifier.padding(paddingValues),
+                            onShareClick = {
+                                shareRecipe(
+                                    context = context,
+                                    recipeId = it.id,
+                                    recipeTitle = it.title
+                                )
+                            }
                         )
                     }
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RecipesAppPreview() {
+    RecipeComposeAppTheme {
+        RecipesApp(deepLinkIntent = null)
     }
 }

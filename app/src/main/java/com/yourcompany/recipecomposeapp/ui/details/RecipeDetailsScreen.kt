@@ -12,6 +12,7 @@ import androidx.compose.material3.CardDefaults.cardColors
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,7 +20,6 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.yourcompany.recipecomposeapp.core.ui.ScreenHeader
 import com.yourcompany.recipecomposeapp.ui.recipes.IngredientItem
 import com.yourcompany.recipecomposeapp.ui.recipes.model.IngredientUiModel
 import com.yourcompany.recipecomposeapp.ui.recipes.model.RecipeUiModel
@@ -27,7 +27,11 @@ import com.yourcompany.recipecomposeapp.ui.theme.Dimens
 import kotlin.math.roundToInt
 
 @Composable
-fun RecipeDetailsScreen(recipe: RecipeUiModel, modifier: Modifier = Modifier) {
+fun RecipeDetailsScreen(
+    recipe: RecipeUiModel,
+    modifier: Modifier = Modifier,
+    onShareClick: () -> Unit
+) {
     var currentPortions by remember { mutableIntStateOf(recipe.servings) }
 
     val scaledIngredients: List<IngredientUiModel> = remember(currentPortions) {
@@ -43,9 +47,10 @@ fun RecipeDetailsScreen(recipe: RecipeUiModel, modifier: Modifier = Modifier) {
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        ScreenHeader(
+        RecipeHeader(
             title = recipe.title,
-            image = recipe.imageUrl
+            image = recipe.imageUrl,
+            onShareClick = onShareClick
         )
         Column(
             modifier = Modifier
@@ -143,6 +148,13 @@ fun PortionsSlider(
         value = currentPortions.toFloat(),
         onValueChange = { onPortionsChange(it.roundToInt()) },
         valueRange = 1f..12f,
-        steps = 10
+        steps = 10,
+        colors = SliderDefaults.colors(
+            thumbColor = MaterialTheme.colorScheme.tertiary,
+            activeTrackColor = MaterialTheme.colorScheme.tertiaryContainer,
+            inactiveTrackColor = MaterialTheme.colorScheme.tertiaryContainer,
+            activeTickColor = MaterialTheme.colorScheme.tertiaryContainer,
+            inactiveTickColor = MaterialTheme.colorScheme.tertiaryContainer
+        )
     )
 }
