@@ -1,9 +1,11 @@
 package com.yourcompany.recipecomposeapp
 
+import android.content.Intent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavType
@@ -11,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.yourcompany.recipecomposeapp.Constants.DEEP_LINK_SCHEME
 import com.yourcompany.recipecomposeapp.Constants.KEY_RECIPE_OBJECT
 import com.yourcompany.recipecomposeapp.data.repository.getCategories
 import com.yourcompany.recipecomposeapp.ui.categories.CategoriesScreen
@@ -21,11 +24,29 @@ import com.yourcompany.recipecomposeapp.ui.navigation.BottomNavigation
 import com.yourcompany.recipecomposeapp.ui.recipes.RecipesScreen
 import com.yourcompany.recipecomposeapp.ui.recipes.model.RecipeUiModel
 import com.yourcompany.recipecomposeapp.ui.theme.RecipeComposeAppTheme
+import kotlinx.coroutines.delay
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun RecipesApp() {
+fun RecipesApp(deepLinkIntent: Intent?) {
     val navController = rememberNavController()
+
+    LaunchedEffect(deepLinkIntent) {
+        deepLinkIntent?.data?.let { uri ->
+            val recipeId: Int? = when (uri.scheme) {
+                DEEP_LINK_SCHEME ->
+                    if (uri.host == "recipe") uri.pathSegments[0].toIntOrNull() else null
+                "https", "http" ->
+                    if (uri.pathSegments[0] == "recipe") uri.pathSegments[1].toIntOrNull() else null
+                else -> null
+            }
+
+            if (recipeId != null) {
+                delay(100)
+                navController.navigate(Destination.RecipeDetails.createRoute(recipeId))
+            }
+        }
+    }
 
     RecipeComposeAppTheme {
         Scaffold(
