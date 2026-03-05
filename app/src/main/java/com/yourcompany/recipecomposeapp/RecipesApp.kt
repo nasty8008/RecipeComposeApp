@@ -16,6 +16,7 @@ import androidx.navigation.navArgument
 import com.yourcompany.recipecomposeapp.Constants.DEEP_LINK_SCHEME
 import com.yourcompany.recipecomposeapp.Constants.KEY_RECIPE_OBJECT
 import com.yourcompany.recipecomposeapp.data.repository.getCategories
+import com.yourcompany.recipecomposeapp.data.repository.getRecipeById
 import com.yourcompany.recipecomposeapp.ui.categories.CategoriesScreen
 import com.yourcompany.recipecomposeapp.ui.categories.model.toUiModel
 import com.yourcompany.recipecomposeapp.ui.details.RecipeDetailsScreen
@@ -23,6 +24,7 @@ import com.yourcompany.recipecomposeapp.ui.favorites.FavoritesScreen
 import com.yourcompany.recipecomposeapp.ui.navigation.BottomNavigation
 import com.yourcompany.recipecomposeapp.ui.recipes.RecipesScreen
 import com.yourcompany.recipecomposeapp.ui.recipes.model.RecipeUiModel
+import com.yourcompany.recipecomposeapp.ui.recipes.model.toUiModel
 import com.yourcompany.recipecomposeapp.ui.theme.RecipeComposeAppTheme
 import kotlinx.coroutines.delay
 
@@ -104,15 +106,20 @@ fun RecipesApp(deepLinkIntent: Intent?) {
                     }
                 }
                 composable(
-                    route = Destination.RecipeDetails.route
-                ) {
-                    val recipe = navController.previousBackStackEntry
-                        ?.savedStateHandle
-                        ?.get<RecipeUiModel>(KEY_RECIPE_OBJECT)
+                    route = Destination.RecipeDetails.route,
+                    arguments = listOf(
+                        navArgument(Constants.PARAM_RECIPE_ID) {
+                            type = NavType.IntType
+                        }
+                    )
+                ) { backStackEntry ->
+                    val recipeId = backStackEntry.arguments?.getInt(Constants.PARAM_RECIPE_ID) ?: 0
 
-                    if (recipe != null) {
+                    val recipe = getRecipeById(recipeId)
+
+                    recipe?.let {
                         RecipeDetailsScreen(
-                            recipe = recipe,
+                            recipe = it.toUiModel(),
                             modifier = Modifier.padding(paddingValues)
                         )
                     }
