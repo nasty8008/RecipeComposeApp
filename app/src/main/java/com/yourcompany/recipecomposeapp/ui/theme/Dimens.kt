@@ -19,4 +19,9 @@ object Dimens {
     val SpaceBetweenButtons = 6.dp
     val ButtonPadding = 16.dp
     val ButtonIconPadding = 10.dp
+
+    val ColumnContentPadding = 16.dp
+    val PortionSectionSpacer = 8.dp
+    val HorizontalDividerThickness = 1.dp
+    val HorizontalDividerModifier = 10.dp
 }

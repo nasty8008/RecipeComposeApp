@@ -13,7 +13,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.yourcompany.recipecomposeapp.R
 import com.yourcompany.recipecomposeapp.core.ui.ScreenHeader
 import com.yourcompany.recipecomposeapp.data.repository.getRecipesByCategoryId
 import com.yourcompany.recipecomposeapp.ui.recipes.model.RecipeUiModel
@@ -26,6 +25,7 @@ fun RecipesScreen(
     modifier: Modifier = Modifier,
     categoryId: Int?,
     categoryTitle: String,
+    categoryImage: Any
 ) {
     var recipes by remember { mutableStateOf<List<RecipeUiModel>>(emptyList()) }
     LaunchedEffect(categoryId) {
@@ -38,7 +38,7 @@ fun RecipesScreen(
     ) {
         ScreenHeader(
             title = categoryTitle,
-            imageId = R.drawable.bcg_recipes_list
+            image = categoryImage
         )
         LazyColumn(
             modifier = Modifier
