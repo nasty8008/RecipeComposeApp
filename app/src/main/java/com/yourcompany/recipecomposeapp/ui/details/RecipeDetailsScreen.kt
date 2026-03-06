@@ -34,8 +34,9 @@ fun RecipeDetailsScreen(
     var currentPortions by rememberSaveable { mutableIntStateOf(recipe.servings) }
     var isFavorite by rememberSaveable { mutableStateOf(false) }
 
-    val scaledIngredients: List<IngredientUiModel> = remember(currentPortions) {
+    val scaledIngredients: List<IngredientUiModel> = remember(recipe.ingredients, currentPortions) {
         val multiplier = currentPortions.toDouble() / recipe.servings.toDouble()
+
         recipe.ingredients.map { ingredient ->
             ingredient.copy(
                 amount = ingredient.amount * multiplier
