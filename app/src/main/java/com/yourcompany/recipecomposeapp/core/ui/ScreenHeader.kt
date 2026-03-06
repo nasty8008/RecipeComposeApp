@@ -1,12 +1,17 @@
 package com.yourcompany.recipecomposeapp.core.ui
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -17,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import coil3.compose.AsyncImage
@@ -32,7 +38,10 @@ fun ScreenHeader(
     title: String,
     image: Any,
     showShareButton: Boolean = false,
-    onShareClick: (() -> Unit)? = null
+    onShareClick: (() -> Unit)? = null,
+    onFavoriteToggle: (() -> Unit)? = null,
+    isFavorite: Boolean = false,
+    showFavoriteButton: Boolean = false
 ) {
 
     val context = LocalContext.current
@@ -71,18 +80,49 @@ fun ScreenHeader(
                 modifier = Modifier.padding(Dimens.HeaderTextInnerPadding)
             )
         }
-        if (showShareButton && onShareClick != null) {
-            IconButton(
-                onClick = onShareClick,
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(Dimens.HeaderTextPadding)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Share,
-                    contentDescription = "Share",
-                    tint = MaterialTheme.colorScheme.tertiary
-                )
+        Row(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(Dimens.HeaderTextPadding),
+            horizontalArrangement = Arrangement.spacedBy(Dimens.SpaceBetweenButtons)
+        ) {
+
+            if (showShareButton && onShareClick != null) {
+
+                Surface(
+                    shape = RoundedCornerShape(50), color = MaterialTheme.colorScheme.surface
+                ) {
+                    IconButton(onClick = onShareClick) {
+                        Icon(
+                            imageVector = Icons.Default.Share,
+                            contentDescription = "Share",
+                            tint = MaterialTheme.colorScheme.tertiary
+                        )
+                    }
+                }
+            }
+
+            if (showFavoriteButton && onFavoriteToggle != null) {
+
+                Surface(
+                    shape = RoundedCornerShape(50), color = MaterialTheme.colorScheme.surface
+                ) {
+                    IconButton(onClick = onFavoriteToggle) {
+
+                        Crossfade(targetState = isFavorite) { favorite ->
+
+                            val painter = rememberVectorPainter(
+                                if (favorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder
+                            )
+
+                            Icon(
+                                painter = painter,
+                                contentDescription = "favorite",
+                                tint = MaterialTheme.colorScheme.tertiary
+                            )
+                        }
+                    }
+                }
             }
         }
     }

@@ -25,7 +25,7 @@ fun IngredientItem(
             text = ingredient.name.uppercase(),
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSecondary,
-            modifier = modifier.weight(1f),
+            modifier = Modifier.weight(1f),
             maxLines = 2,
         )
         Text(
