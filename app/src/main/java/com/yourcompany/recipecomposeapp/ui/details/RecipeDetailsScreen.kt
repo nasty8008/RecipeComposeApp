@@ -11,8 +11,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults.cardColors
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,7 +24,6 @@ import com.yourcompany.recipecomposeapp.ui.recipes.IngredientItem
 import com.yourcompany.recipecomposeapp.ui.recipes.model.IngredientUiModel
 import com.yourcompany.recipecomposeapp.ui.recipes.model.RecipeUiModel
 import com.yourcompany.recipecomposeapp.ui.theme.Dimens
-import kotlin.math.roundToInt
 
 @Composable
 fun RecipeDetailsScreen(
@@ -34,7 +31,7 @@ fun RecipeDetailsScreen(
     modifier: Modifier = Modifier,
     onShareClick: () -> Unit
 ) {
-    var currentPortions by remember { mutableIntStateOf(recipe.servings) }
+    var currentPortions by rememberSaveable { mutableIntStateOf(recipe.servings) }
     var isFavorite by rememberSaveable { mutableStateOf(false) }
 
     val scaledIngredients: List<IngredientUiModel> = remember(currentPortions) {
@@ -145,24 +142,4 @@ fun RecipeDetailsScreen(
             }
         }
     }
-}
-
-@Composable
-fun PortionsSlider(
-    currentPortions: Int,
-    onPortionsChange: (Int) -> Unit
-) {
-    Slider(
-        value = currentPortions.toFloat(),
-        onValueChange = { onPortionsChange(it.roundToInt()) },
-        valueRange = 1f..12f,
-        steps = 10,
-        colors = SliderDefaults.colors(
-            thumbColor = MaterialTheme.colorScheme.tertiary,
-            activeTrackColor = MaterialTheme.colorScheme.tertiaryContainer,
-            inactiveTrackColor = MaterialTheme.colorScheme.tertiaryContainer,
-            activeTickColor = MaterialTheme.colorScheme.tertiaryContainer,
-            inactiveTickColor = MaterialTheme.colorScheme.tertiaryContainer
-        )
-    )
 }
