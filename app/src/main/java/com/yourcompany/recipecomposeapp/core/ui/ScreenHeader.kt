@@ -1,6 +1,9 @@
 package com.yourcompany.recipecomposeapp.core.ui
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,8 +20,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.vectorResource
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
@@ -32,7 +39,10 @@ fun ScreenHeader(
     title: String,
     image: Any,
     showShareButton: Boolean = false,
-    onShareClick: (() -> Unit)? = null
+    onShareClick: (() -> Unit)? = null,
+    onFavoriteToggle: (() -> Unit)? = null,
+    isFavorite: Boolean = false,
+    showFavoriteButton: Boolean = false
 ) {
 
     val context = LocalContext.current
@@ -71,18 +81,44 @@ fun ScreenHeader(
                 modifier = Modifier.padding(Dimens.HeaderTextInnerPadding)
             )
         }
-        if (showShareButton && onShareClick != null) {
-            IconButton(
-                onClick = onShareClick,
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(Dimens.HeaderTextPadding)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Share,
-                    contentDescription = "Share",
-                    tint = MaterialTheme.colorScheme.tertiary
-                )
+        Row(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(Dimens.HeaderTextPadding)
+        ) {
+
+            if (showShareButton && onShareClick != null) {
+                IconButton(onClick = onShareClick) {
+                    Icon(
+                        imageVector = Icons.Default.Share,
+                        contentDescription = "Share",
+                        tint = MaterialTheme.colorScheme.surface
+                    )
+                }
+            }
+
+            if (showFavoriteButton && onFavoriteToggle != null) {
+                IconButton(onClick = onFavoriteToggle) {
+
+                    Crossfade(
+                        targetState = isFavorite,
+                        animationSpec = tween(durationMillis = 300),
+                        label = "favorite_animation"
+                    ) { isCurrentlyFavorite ->
+
+                        val painter = rememberVectorPainter(
+                            image = ImageVector.vectorResource(
+                                id = if (isCurrentlyFavorite) R.drawable.ic_heart else R.drawable.ic_heart_empty
+                            )
+                        )
+
+                        Icon(
+                            painter = painter,
+                            contentDescription = "favorite",
+                            tint = Color.Unspecified
+                        )
+                    }
+                }
             }
         }
     }
