@@ -15,7 +15,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -29,10 +28,11 @@ import com.yourcompany.recipecomposeapp.ui.theme.Dimens
 fun RecipeDetailsScreen(
     recipe: RecipeUiModel,
     modifier: Modifier = Modifier,
+    isFavorite: Boolean,
+    onFavoriteToggle: () -> Unit,
     onShareClick: () -> Unit
 ) {
     var currentPortions by rememberSaveable { mutableIntStateOf(recipe.servings) }
-    var isFavorite by rememberSaveable { mutableStateOf(false) }
 
     val scaledIngredients: List<IngredientUiModel> = remember(recipe.ingredients, currentPortions) {
         val multiplier = currentPortions.toDouble() / recipe.servings.toDouble()
@@ -53,9 +53,7 @@ fun RecipeDetailsScreen(
             image = recipe.imageUrl,
             onShareClick = onShareClick,
             isFavorite = isFavorite,
-            onFavoriteToggle = {
-                isFavorite = !isFavorite
-            },
+            onFavoriteToggle = onFavoriteToggle,
             showFavoriteButton = true
         )
         Column(
