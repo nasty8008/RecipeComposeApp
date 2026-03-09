@@ -38,7 +38,7 @@ fun RecipesScreen(
     ) {
         ScreenHeader(
             title = categoryTitle,
-            image = categoryImage
+            image = categoryImage,
         )
         LazyColumn(
             modifier = Modifier

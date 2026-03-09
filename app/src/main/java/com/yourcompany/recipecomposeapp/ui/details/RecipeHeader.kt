@@ -7,12 +7,18 @@ import com.yourcompany.recipecomposeapp.core.ui.ScreenHeader
 fun RecipeHeader(
     title: String,
     image: Any,
-    onShareClick: () -> Unit
+    onShareClick: () -> Unit,
+    onFavoriteToggle: () -> Unit,
+    isFavorite: Boolean,
+    showFavoriteButton: Boolean
 ) {
     ScreenHeader(
         title = title,
         image = image,
         showShareButton = true,
-        onShareClick = onShareClick
+        onShareClick = onShareClick,
+        onFavoriteToggle = onFavoriteToggle,
+        isFavorite = isFavorite,
+        showFavoriteButton  = showFavoriteButton
     )
 }

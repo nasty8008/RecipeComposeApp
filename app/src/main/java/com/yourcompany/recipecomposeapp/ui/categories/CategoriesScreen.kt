@@ -28,7 +28,7 @@ fun CategoriesScreen(
     ) {
         ScreenHeader(
             ScreenId.CATEGORIES.displayName,
-            R.drawable.bcg_categories
+            R.drawable.bcg_categories,
         )
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
