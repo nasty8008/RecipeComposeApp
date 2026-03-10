@@ -32,7 +32,7 @@ class FavoritePrefsManager(context: Context) {
         }
     }
 
-    fun getAllFavorites(): Set<String?> {
+    fun getAllFavorites(): Set<String> {
         return sharedPreferences.getStringSet(KEY_FAVORITES, emptySet()) ?: emptySet()
     }
 }
