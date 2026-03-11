@@ -7,7 +7,7 @@ import com.yourcompany.recipecomposeapp.Constants.KEY_FAVORITES
 import com.yourcompany.recipecomposeapp.Constants.PREF_NAME
 
 class FavoritePrefsManager(context: Context) {
-    val sharedPreferences: SharedPreferences =
+    private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
 
     fun isFavorite(recipeId: Int): Boolean {
