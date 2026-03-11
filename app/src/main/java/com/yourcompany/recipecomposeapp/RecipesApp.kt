@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -22,6 +22,7 @@ import com.yourcompany.recipecomposeapp.Constants.DEEP_LINK_SCHEME
 import com.yourcompany.recipecomposeapp.Constants.KEY_RECIPE_OBJECT
 import com.yourcompany.recipecomposeapp.data.repository.getCategories
 import com.yourcompany.recipecomposeapp.data.repository.getRecipeById
+import com.yourcompany.recipecomposeapp.data.utils.FavoritePrefsManager
 import com.yourcompany.recipecomposeapp.data.utils.shareRecipe
 import com.yourcompany.recipecomposeapp.ui.categories.CategoriesScreen
 import com.yourcompany.recipecomposeapp.ui.categories.model.toUiModel
@@ -61,10 +62,10 @@ fun RecipesApp(deepLinkIntent: Intent?) {
             bottomBar = {
                 BottomNavigation(
                     onCategoriesClick = {
-                        navController.navigate("categories")
+                        navController.navigate(Destination.Categories)
                     },
                     onFavoriteClick = {
-                        navController.navigate("favorites")
+                        navController.navigate(Destination.Favorites)
                     },
                 )
             }
@@ -122,7 +123,10 @@ fun RecipesApp(deepLinkIntent: Intent?) {
                     val context = LocalContext.current
                     val recipeId = backStackEntry.arguments?.getInt(Constants.PARAM_RECIPE_ID) ?: 0
                     val recipe = getRecipeById(recipeId)
-                    var isFavorite by rememberSaveable { mutableStateOf(false) }
+                    val favoritePrefs = remember { FavoritePrefsManager(context) }
+                    var isFavorite by remember(recipeId) {
+                        mutableStateOf(favoritePrefs.isFavorite(recipeId))
+                    }
 
                     recipe?.let {
                         RecipeDetailsScreen(
@@ -130,6 +134,11 @@ fun RecipesApp(deepLinkIntent: Intent?) {
                             modifier = Modifier.padding(paddingValues),
                             isFavorite = isFavorite,
                             onFavoriteToggle = {
+                                if (isFavorite) {
+                                    favoritePrefs.removeFromFavorites(recipeId)
+                                } else {
+                                    favoritePrefs.addToFavorites(recipeId)
+                                }
                                 isFavorite = !isFavorite
                             },
                             onShareClick = {
