@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -23,6 +25,7 @@ import com.yourcompany.recipecomposeapp.ui.theme.Dimens
 
 @Composable
 fun BottomNavigation(
+    favoriteCount: Int,
     onCategoriesClick: () -> Unit,
     onFavoriteClick: () -> Unit
 ) {
@@ -72,11 +75,19 @@ fun BottomNavigation(
                         color = MaterialTheme.colorScheme.surface
                     )
                     Spacer(modifier = Modifier.width(Dimens.ButtonIconPadding))
-                    Icon(
-                        imageVector = Icons.Default.Favorite,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.surface
-                    )
+                    BadgedBox(
+                        badge = {
+                            if (favoriteCount > 0) {
+                                Badge { Text(favoriteCount.toString()) }
+                            }
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.surface
+                        )
+                    }
                 }
             }
         }
