@@ -6,6 +6,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -129,11 +130,9 @@ fun RecipesApp(deepLinkIntent: Intent?) {
                     val recipe = getRecipeById(recipeId)
 
                     val favoriteManager = remember { FavoriteDataStoreManager(context) }
-                    var isFavorite by remember { mutableStateOf(false) }
-
-                    LaunchedEffect(recipeId) {
-                        isFavorite = favoriteManager.isFavorite(recipeId)
-                    }
+                    val isFavorite by favoriteManager
+                        .isFavoriteFlow(recipe?.id ?: 0)
+                        .collectAsState(initial = false)
 
                     recipe?.let {
                         RecipeDetailsScreen(
@@ -147,7 +146,6 @@ fun RecipesApp(deepLinkIntent: Intent?) {
                                     } else {
                                         favoriteManager.addFavorite(recipeId)
                                     }
-                                    isFavorite = !isFavorite
                                 }
                             },
                             onShareClick = {
