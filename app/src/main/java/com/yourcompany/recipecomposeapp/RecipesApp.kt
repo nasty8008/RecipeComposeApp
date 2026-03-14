@@ -71,10 +71,10 @@ fun RecipesApp(deepLinkIntent: Intent?) {
                 BottomNavigation(
                     favoriteCount = favoriteCount,
                     onCategoriesClick = {
-                        navController.navigate(Destination.Categories)
+                        navController.navigate(Destination.Categories.route)
                     },
                     onFavoriteClick = {
-                        navController.navigate(Destination.Favorites)
+                        navController.navigate(Destination.Favorites.route)
                     },
                 )
             }
@@ -93,7 +93,14 @@ fun RecipesApp(deepLinkIntent: Intent?) {
                 }
                 composable(route = Destination.Favorites.route) {
                     FavoritesScreen(
-                        modifier = Modifier.padding(paddingValues)
+                        modifier = Modifier.padding(paddingValues),
+                        favoriteManager = favoriteManager,
+                        onRecipeClick = { id, recipe ->
+                            navController.currentBackStackEntry
+                                ?.savedStateHandle
+                                ?.set(KEY_RECIPE_OBJECT, recipe)
+                            navController.navigate(Destination.RecipeDetails.createRoute(id))
+                        }
                     )
                 }
                 composable(
