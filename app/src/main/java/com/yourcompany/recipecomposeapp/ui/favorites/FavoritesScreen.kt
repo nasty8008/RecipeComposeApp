@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -34,7 +35,7 @@ fun FavoritesScreen(
     favoriteManager: FavoriteDataStoreManager,
     onRecipeClick: (Int, RecipeUiModel) -> Unit
 ) {
-    val favoriteRecipes by favoriteManager.getFavoriteIdsFlow()
+    val favoriteRecipes by remember { favoriteManager.getFavoriteIdsFlow() }
         .map { ids ->
             ids.mapNotNull { id ->
                 id.toIntOrNull()?.let { getRecipeById(it) }
@@ -71,9 +72,10 @@ fun FavoritesScreen(
                 verticalArrangement = Arrangement.spacedBy(Dimens.CardRecipeSpacing)
             ) {
                 items(favoriteRecipes, key = { it.id }) { recipe ->
+                    val recipeUiModel = recipe.toUiModel()
                     RecipeItem(
-                        onClick = { onRecipeClick(it.id, recipe.toUiModel()) },
-                        recipe = recipe.toUiModel()
+                        onClick = { onRecipeClick(it.id, recipeUiModel) },
+                        recipe = recipeUiModel
                     )
                 }
             }
