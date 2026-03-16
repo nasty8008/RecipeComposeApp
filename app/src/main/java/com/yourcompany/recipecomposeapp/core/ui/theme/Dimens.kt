@@ -1,0 +1,27 @@
+package com.yourcompany.recipecomposeapp.core.ui.theme
+
+import androidx.compose.ui.unit.dp
+
+object Dimens {
+    val HeaderHeight = 260.dp
+    val HeaderTextPadding = 16.dp
+    val HeaderTextInnerPadding = 10.dp
+    val HeaderTextCornerRadius = 8.dp
+
+    val CardTextPadding = 10.dp
+    val CardHeightCategory = 250.dp
+    val CardHeightRecipe = 170.dp
+    val CardPadding = 10.dp
+    val CardShadow = 3.dp
+    val CardRecipeSpacing = 2.dp
+
+    val ButtonHeight = 42.dp
+    val SpaceBetweenButtons = 6.dp
+    val ButtonPadding = 16.dp
+    val ButtonIconPadding = 10.dp
+
+    val ColumnContentPadding = 16.dp
+    val PortionSectionSpacer = 8.dp
+    val HorizontalDividerThickness = 1.dp
+    val HorizontalDividerModifier = 10.dp
+}

@@ -32,7 +32,7 @@ import coil3.request.crossfade
 import coil3.request.error
 import coil3.request.placeholder
 import com.yourcompany.recipecomposeapp.R
-import com.yourcompany.recipecomposeapp.ui.theme.Dimens
+import com.yourcompany.recipecomposeapp.core.ui.theme.Dimens
 
 @Composable
 fun ScreenHeader(

@@ -3,7 +3,6 @@ package com.yourcompany.recipecomposeapp.data.repository
 import com.yourcompany.recipecomposeapp.data.model.CategoryDto
 import com.yourcompany.recipecomposeapp.data.model.IngredientDto
 import com.yourcompany.recipecomposeapp.data.model.RecipeDto
-import com.yourcompany.recipecomposeapp.ui.recipes.model.RecipeUiModel
 
 private val categories = listOf(
     CategoryDto(
