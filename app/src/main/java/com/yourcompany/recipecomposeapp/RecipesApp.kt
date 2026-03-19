@@ -127,10 +127,7 @@ fun RecipesApp(deepLinkIntent: Intent?) {
                                     ?.set(KEY_RECIPE_OBJECT, recipe)
                                 navController.navigate(Destination.RecipeDetails.createRoute(id))
                             },
-                            modifier = Modifier.padding(paddingValues),
-                            categoryId = category.id,
-                            categoryTitle = category.title,
-                            categoryImage = category.imageUrl,
+                            modifier = Modifier.padding(paddingValues)
                         )
                     } else {
                         Text("Категория не найдена")
