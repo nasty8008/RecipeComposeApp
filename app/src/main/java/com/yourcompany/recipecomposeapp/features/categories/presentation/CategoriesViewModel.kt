@@ -17,7 +17,7 @@ class CategoriesViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-            _uiState.value = CategoriesUiState(isLoading = true, error = null)
+            _uiState.update { it.copy(isLoading = true, error = null) }
 
             try {
                 val categories = getCategories().map { it.toUiModel() }
