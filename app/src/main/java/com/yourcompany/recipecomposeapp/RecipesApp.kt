@@ -89,7 +89,13 @@ fun RecipesApp(deepLinkIntent: Intent?) {
                     CategoriesScreen(
                         modifier = Modifier.padding(paddingValues),
                         onCategoryClick = { categoryId, categoryTitle, categoryImageUrl ->
-                            navController.navigate(Destination.Recipes.createRoute(categoryId))
+                            navController.navigate(
+                                Destination.Recipes.createRoute(
+                                    categoryId,
+                                    categoryTitle,
+                                    categoryImageUrl
+                                )
+                            )
                         }
                     )
                 }
