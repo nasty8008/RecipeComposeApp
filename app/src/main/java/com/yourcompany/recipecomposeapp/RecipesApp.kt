@@ -3,7 +3,6 @@ package com.yourcompany.recipecomposeapp
 import android.content.Intent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -18,22 +17,20 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.yourcompany.recipecomposeapp.core.utils.Constants.DEEP_LINK_SCHEME
-import com.yourcompany.recipecomposeapp.core.utils.Constants.KEY_RECIPE_OBJECT
-import com.yourcompany.recipecomposeapp.data.repository.getCategories
-import com.yourcompany.recipecomposeapp.data.repository.getRecipeById
-import com.yourcompany.recipecomposeapp.core.utils.FavoriteDataStoreManager
-import com.yourcompany.recipecomposeapp.core.utils.shareRecipe
-import com.yourcompany.recipecomposeapp.features.categories.ui.CategoriesScreen
-import com.yourcompany.recipecomposeapp.features.categories.presentation.model.toUiModel
-import com.yourcompany.recipecomposeapp.features.details.ui.RecipeDetailsScreen
-import com.yourcompany.recipecomposeapp.features.favorites.ui.FavoritesScreen
 import com.yourcompany.recipecomposeapp.core.ui.BottomNavigation
-import com.yourcompany.recipecomposeapp.features.recipes.ui.RecipesScreen
-import com.yourcompany.recipecomposeapp.features.recipes.presentation.model.toUiModel
 import com.yourcompany.recipecomposeapp.core.ui.theme.RecipeComposeAppTheme
 import com.yourcompany.recipecomposeapp.core.utils.Constants
+import com.yourcompany.recipecomposeapp.core.utils.Constants.DEEP_LINK_SCHEME
+import com.yourcompany.recipecomposeapp.core.utils.Constants.KEY_RECIPE_OBJECT
 import com.yourcompany.recipecomposeapp.core.utils.Destination
+import com.yourcompany.recipecomposeapp.core.utils.FavoriteDataStoreManager
+import com.yourcompany.recipecomposeapp.core.utils.shareRecipe
+import com.yourcompany.recipecomposeapp.data.repository.getRecipeById
+import com.yourcompany.recipecomposeapp.features.categories.ui.CategoriesScreen
+import com.yourcompany.recipecomposeapp.features.details.ui.RecipeDetailsScreen
+import com.yourcompany.recipecomposeapp.features.favorites.ui.FavoritesScreen
+import com.yourcompany.recipecomposeapp.features.recipes.presentation.model.toUiModel
+import com.yourcompany.recipecomposeapp.features.recipes.ui.RecipesScreen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -89,7 +86,13 @@ fun RecipesApp(deepLinkIntent: Intent?) {
                     CategoriesScreen(
                         modifier = Modifier.padding(paddingValues),
                         onCategoryClick = { categoryId, categoryTitle, categoryImageUrl ->
-                            navController.navigate(Destination.Recipes.createRoute(categoryId))
+                            navController.navigate(
+                                Destination.Recipes.createRoute(
+                                    categoryId,
+                                    categoryTitle,
+                                    categoryImageUrl
+                                )
+                            )
                         }
                     )
                 }
@@ -109,26 +112,15 @@ fun RecipesApp(deepLinkIntent: Intent?) {
                     route = Destination.Recipes.route,
                     arguments = listOf(navArgument("categoryId") { type = NavType.IntType })
                 ) { backStackEntry ->
-                    val categoryId = backStackEntry.arguments?.getInt("categoryId") ?: 0
-                    val category = getCategories()
-                        .map { it.toUiModel() }
-                        .find { it.id == categoryId }
-                    if (category !== null) {
-                        RecipesScreen(
-                            onRecipeClick = { id, recipe ->
-                                navController.currentBackStackEntry
-                                    ?.savedStateHandle
-                                    ?.set(KEY_RECIPE_OBJECT, recipe)
-                                navController.navigate(Destination.RecipeDetails.createRoute(id))
-                            },
-                            modifier = Modifier.padding(paddingValues),
-                            categoryId = category.id,
-                            categoryTitle = category.title,
-                            categoryImage = category.imageUrl,
-                        )
-                    } else {
-                        Text("Категория не найдена")
-                    }
+                    RecipesScreen(
+                        onRecipeClick = { id, recipe ->
+                            navController.currentBackStackEntry
+                                ?.savedStateHandle
+                                ?.set(KEY_RECIPE_OBJECT, recipe)
+                            navController.navigate(Destination.RecipeDetails.createRoute(id))
+                        },
+                        modifier = Modifier.padding(paddingValues)
+                    )
                 }
                 composable(
                     route = Destination.RecipeDetails.route,
