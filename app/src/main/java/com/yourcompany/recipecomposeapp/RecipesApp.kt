@@ -8,7 +8,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,12 +31,10 @@ import com.yourcompany.recipecomposeapp.features.favorites.ui.FavoritesScreen
 import com.yourcompany.recipecomposeapp.features.recipes.presentation.model.toUiModel
 import com.yourcompany.recipecomposeapp.features.recipes.ui.RecipesScreen
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @Composable
 fun RecipesApp(deepLinkIntent: Intent?) {
     val navController = rememberNavController()
-    val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
     val favoriteManager = remember { FavoriteDataStoreManager(context) }
@@ -139,31 +136,17 @@ fun RecipesApp(deepLinkIntent: Intent?) {
                     val recipeId = backStackEntry.arguments?.getInt(Constants.PARAM_RECIPE_ID) ?: 0
                     val recipe = getRecipeById(recipeId)
 
-                    val isFavorite by favoriteManager
-                        .isFavoriteFlow(recipeId)
-                        .collectAsState(initial = false)
-
                     recipe?.let {
                         RecipeDetailsScreen(
                             recipe = it.toUiModel(),
                             modifier = Modifier.padding(paddingValues),
-                            isFavorite = isFavorite,
-                            onFavoriteToggle = {
-                                coroutineScope.launch {
-                                    if (isFavorite) {
-                                        favoriteManager.removeFavorite(recipeId)
-                                    } else {
-                                        favoriteManager.addFavorite(recipeId)
-                                    }
-                                }
-                            },
                             onShareClick = {
                                 shareRecipe(
                                     context = context,
                                     recipeId = it.id,
                                     recipeTitle = it.title
                                 )
-                            }
+                            },
                         )
                     }
                 }
