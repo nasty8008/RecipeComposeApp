@@ -110,7 +110,13 @@ fun RecipesApp(deepLinkIntent: Intent?) {
                 }
                 composable(
                     route = Destination.Recipes.route,
-                    arguments = listOf(navArgument("categoryId") { type = NavType.IntType })
+                    arguments = listOf(
+                        navArgument(Constants.PARAM_CATEGORY_ID) { type = NavType.IntType },
+                        navArgument(Constants.PARAM_CATEGORY_TITLE) { type = NavType.StringType },
+                        navArgument(Constants.PARAM_CATEGORY_IMAGE_URL) {
+                            type = NavType.StringType
+                        }
+                    )
                 ) { backStackEntry ->
                     RecipesScreen(
                         onRecipeClick = { id, recipe ->
