@@ -13,36 +13,29 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.yourcompany.recipecomposeapp.features.recipes.ui.IngredientItem
-import com.yourcompany.recipecomposeapp.features.recipes.presentation.model.IngredientUiModel
-import com.yourcompany.recipecomposeapp.features.recipes.presentation.model.RecipeUiModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.yourcompany.recipecomposeapp.core.ui.theme.Dimens
+import com.yourcompany.recipecomposeapp.features.details.presentation.model.RecipeDetailsViewModel
+import com.yourcompany.recipecomposeapp.features.recipes.presentation.model.RecipeUiModel
+import com.yourcompany.recipecomposeapp.features.recipes.ui.IngredientItem
 
 @Composable
 fun RecipeDetailsScreen(
     recipe: RecipeUiModel,
     modifier: Modifier = Modifier,
-    isFavorite: Boolean,
-    onFavoriteToggle: () -> Unit,
-    onShareClick: () -> Unit
+    onShareClick: () -> Unit,
+    viewModel: RecipeDetailsViewModel = viewModel()
 ) {
-    var currentPortions by rememberSaveable { mutableIntStateOf(recipe.servings) }
+    val state by viewModel.uiState.collectAsState()
 
-    val scaledIngredients: List<IngredientUiModel> = remember(recipe.ingredients, currentPortions) {
-        val multiplier = currentPortions.toDouble() / recipe.servings.toDouble()
-
-        recipe.ingredients.map { ingredient ->
-            ingredient.copy(
-                amount = ingredient.amount * multiplier
-            )
-        }
+    LaunchedEffect(recipe.id) {
+        viewModel.loadRecipe(recipe)
     }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -52,8 +45,8 @@ fun RecipeDetailsScreen(
             title = recipe.title,
             image = recipe.imageUrl,
             onShareClick = onShareClick,
-            isFavorite = isFavorite,
-            onFavoriteToggle = onFavoriteToggle,
+            isFavorite = state.isFavorite,
+            onFavoriteToggle = { viewModel.toggleFavorite() },
             showFavoriteButton = true
         )
         Column(
@@ -73,15 +66,13 @@ fun RecipeDetailsScreen(
                     color = MaterialTheme.colorScheme.primary
                 )
                 Text(
-                    text = "Порции: $currentPortions",
+                    text = "Порции: ${state.currentPortions}",
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSecondary
                 )
                 PortionsSlider(
-                    currentPortions,
-                    onPortionsChange = { newValue ->
-                        currentPortions = newValue
-                    }
+                    state.currentPortions,
+                    onPortionsChange = viewModel::updatePortions
                 )
             }
             Card(
@@ -95,9 +86,9 @@ fun RecipeDetailsScreen(
                         .fillMaxWidth()
                         .padding(Dimens.ColumnContentPadding)
                 ) {
-                    scaledIngredients.forEachIndexed { index, ingredient ->
+                    state.scaledIngredients.forEachIndexed { index, ingredient ->
                         IngredientItem(ingredient)
-                        if (index != scaledIngredients.lastIndex) {
+                        if (index != state.scaledIngredients.lastIndex) {
                             HorizontalDivider(
                                 modifier = Modifier.padding(vertical = Dimens.HorizontalDividerModifier),
                                 thickness = Dimens.HorizontalDividerThickness,
