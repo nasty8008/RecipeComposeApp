@@ -13,35 +13,26 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.yourcompany.recipecomposeapp.R
 import com.yourcompany.recipecomposeapp.ScreenId
 import com.yourcompany.recipecomposeapp.core.ui.ScreenHeader
-import com.yourcompany.recipecomposeapp.data.repository.getRecipeById
-import com.yourcompany.recipecomposeapp.core.utils.FavoriteDataStoreManager
 import com.yourcompany.recipecomposeapp.features.recipes.ui.RecipeItem
 import com.yourcompany.recipecomposeapp.features.recipes.presentation.model.RecipeUiModel
-import com.yourcompany.recipecomposeapp.features.recipes.presentation.model.toUiModel
 import com.yourcompany.recipecomposeapp.core.ui.theme.Dimens
-import kotlinx.coroutines.flow.map
+import com.yourcompany.recipecomposeapp.features.favorites.presentation.model.FavoritesViewModel
 
 
 @Composable
 fun FavoritesScreen(
     modifier: Modifier = Modifier,
-    favoriteManager: FavoriteDataStoreManager,
+    viewModel: FavoritesViewModel = viewModel(),
     onRecipeClick: (Int, RecipeUiModel) -> Unit
 ) {
-    val favoriteRecipes by remember { favoriteManager.getFavoriteIdsFlow() }
-        .map { ids ->
-            ids.mapNotNull { id ->
-                id.toIntOrNull()?.let { getRecipeById(it) }
-            }
-        }
-        .collectAsState(initial = emptyList())
+    val state by viewModel.uiState.collectAsState()
 
     Column(
         modifier.fillMaxSize()
@@ -51,7 +42,7 @@ fun FavoritesScreen(
             R.drawable.bcg_favorites
         )
 
-        if (favoriteRecipes.isEmpty()) {
+        if (state.recipes.isEmpty()) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -71,11 +62,10 @@ fun FavoritesScreen(
                 contentPadding = PaddingValues(Dimens.CardPadding),
                 verticalArrangement = Arrangement.spacedBy(Dimens.CardRecipeSpacing)
             ) {
-                items(favoriteRecipes, key = { it.id }) { recipe ->
-                    val recipeUiModel = recipe.toUiModel()
+                items(state.recipes, key = { it.id }) { recipe ->
                     RecipeItem(
-                        onClick = { onRecipeClick(it.id, recipeUiModel) },
-                        recipe = recipeUiModel
+                        onClick = { onRecipeClick(it.id, recipe) },
+                        recipe = recipe
                     )
                 }
             }

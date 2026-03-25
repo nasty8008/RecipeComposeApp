@@ -96,7 +96,6 @@ fun RecipesApp(deepLinkIntent: Intent?) {
                 composable(route = Destination.Favorites.route) {
                     FavoritesScreen(
                         modifier = Modifier.padding(paddingValues),
-                        favoriteManager = favoriteManager,
                         onRecipeClick = { id, recipe ->
                             navController.currentBackStackEntry
                                 ?.savedStateHandle
