@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class RecipeDetailsViewModel(state: SavedStateHandle, application: Application) : AndroidViewModel(application) {
+class RecipeDetailsViewModel(application: Application, state: SavedStateHandle) : AndroidViewModel(application) {
 
     private val recipeId: Int = state[Constants.PARAM_RECIPE_ID] ?: 0
 

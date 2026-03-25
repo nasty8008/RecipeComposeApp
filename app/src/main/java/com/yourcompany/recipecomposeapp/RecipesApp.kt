@@ -20,7 +20,6 @@ import com.yourcompany.recipecomposeapp.core.ui.BottomNavigation
 import com.yourcompany.recipecomposeapp.core.ui.theme.RecipeComposeAppTheme
 import com.yourcompany.recipecomposeapp.core.utils.Constants
 import com.yourcompany.recipecomposeapp.core.utils.Constants.DEEP_LINK_SCHEME
-import com.yourcompany.recipecomposeapp.core.utils.Constants.KEY_RECIPE_OBJECT
 import com.yourcompany.recipecomposeapp.core.utils.Destination
 import com.yourcompany.recipecomposeapp.core.utils.FavoriteDataStoreManager
 import com.yourcompany.recipecomposeapp.core.utils.shareRecipe
@@ -28,7 +27,6 @@ import com.yourcompany.recipecomposeapp.data.repository.getRecipeById
 import com.yourcompany.recipecomposeapp.features.categories.ui.CategoriesScreen
 import com.yourcompany.recipecomposeapp.features.details.ui.RecipeDetailsScreen
 import com.yourcompany.recipecomposeapp.features.favorites.ui.FavoritesScreen
-import com.yourcompany.recipecomposeapp.features.recipes.presentation.model.toUiModel
 import com.yourcompany.recipecomposeapp.features.recipes.ui.RecipesScreen
 import kotlinx.coroutines.delay
 
@@ -97,9 +95,9 @@ fun RecipesApp(deepLinkIntent: Intent?) {
                     FavoritesScreen(
                         modifier = Modifier.padding(paddingValues),
                         onRecipeClick = { id, recipe ->
-                            navController.currentBackStackEntry
-                                ?.savedStateHandle
-                                ?.set(KEY_RECIPE_OBJECT, recipe)
+//                            navController.currentBackStackEntry
+//                                ?.savedStateHandle
+//                                ?.set(KEY_RECIPE_OBJECT, recipe)
                             navController.navigate(Destination.RecipeDetails.createRoute(id))
                         }
                     )
@@ -116,9 +114,9 @@ fun RecipesApp(deepLinkIntent: Intent?) {
                 ) { backStackEntry ->
                     RecipesScreen(
                         onRecipeClick = { id, recipe ->
-                            navController.currentBackStackEntry
-                                ?.savedStateHandle
-                                ?.set(KEY_RECIPE_OBJECT, recipe)
+//                            navController.currentBackStackEntry
+//                                ?.savedStateHandle
+//                                ?.set(KEY_RECIPE_OBJECT, recipe)
                             navController.navigate(Destination.RecipeDetails.createRoute(id))
                         },
                         modifier = Modifier.padding(paddingValues)
@@ -137,7 +135,6 @@ fun RecipesApp(deepLinkIntent: Intent?) {
 
                     recipe?.let {
                         RecipeDetailsScreen(
-                            recipe = it.toUiModel(),
                             modifier = Modifier.padding(paddingValues),
                             onShareClick = {
                                 shareRecipe(
