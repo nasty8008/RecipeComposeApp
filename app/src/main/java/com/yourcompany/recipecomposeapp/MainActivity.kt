@@ -26,11 +26,14 @@ class MainActivity : ComponentActivity() {
             RecipesApp(deepLinkIntent = deepLinkIntent)
         }
 
+        Log.i("!!!", "Метод onCreate() выполняется на потоке: ${Thread.currentThread().name}")
+
         val thread = Thread {
             val url = URL("https://recipes.androidsprint.ru/api/category")
             val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
             connection.connect()
 
+            Log.i("!!!", "Выполняю запрос на потоке: ${Thread.currentThread().name}")
             Log.i("!!!", "responseCode: ${connection.responseCode}")
             Log.i("!!!", "responseMessage: ${connection.responseMessage}")
             Log.i("!!!", "Body: ${connection.getInputStream().bufferedReader().readText()}")
