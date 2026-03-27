@@ -9,6 +9,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.yourcompany.recipecomposeapp.data.model.CategoryDto
+import kotlinx.serialization.json.Json
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -36,7 +38,15 @@ class MainActivity : ComponentActivity() {
             Log.i("!!!", "Выполняю запрос на потоке: ${Thread.currentThread().name}")
             Log.i("!!!", "responseCode: ${connection.responseCode}")
             Log.i("!!!", "responseMessage: ${connection.responseMessage}")
-            Log.i("!!!", "Body: ${connection.getInputStream().bufferedReader().readText()}")
+
+            val responseText = connection.getInputStream().bufferedReader().readText()
+            val json = Json
+            val categories: List<CategoryDto> = json.decodeFromString(responseText)
+
+            Log.i("!!!", "Количество категорий: ${categories.size}")
+            categories.forEach {
+                Log.i("!!!", "Категория: ${it.title}")
+            }
         }
         thread.start()
     }
