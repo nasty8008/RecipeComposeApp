@@ -48,20 +48,20 @@ private val burgerRecipes = listOf(
         id = 0,
         title = "Классический чизбургер",
         ingredients = listOf(
-            IngredientDto(quantity = 400.0, unitOfMeasure = "г", description = "Говяжий фарш"),
-            IngredientDto(quantity = 4.0, unitOfMeasure = "ломтика", description = "Сыр чеддер"),
+            IngredientDto(quantity = "400.0", unitOfMeasure = "г", description = "Говяжий фарш"),
+            IngredientDto(quantity = "4.0", unitOfMeasure = "ломтика", description = "Сыр чеддер"),
             IngredientDto(
-                quantity = 4.0,
+                quantity = "4.0",
                 unitOfMeasure = "штуки",
                 description = "Булочки для бургера"
             ),
-            IngredientDto(quantity = 1.0, unitOfMeasure = "штука", description = "Лук репчатый"),
-            IngredientDto(quantity = 1.0, unitOfMeasure = "штука", description = "Помидор"),
-            IngredientDto(quantity = 100.0, unitOfMeasure = "г", description = "Листья салата"),
-            IngredientDto(quantity = 2.0, unitOfMeasure = "ст. ложки", description = "Кетчуп"),
-            IngredientDto(quantity = 2.0, unitOfMeasure = "ст. ложки", description = "Горчица"),
-            IngredientDto(quantity = 2.0, unitOfMeasure = "ст. ложки", description = "Майонез"),
-            IngredientDto(quantity = 1.0, unitOfMeasure = "штука", description = "Соленый огурец")
+            IngredientDto(quantity = "1.0", unitOfMeasure = "штука", description = "Лук репчатый"),
+            IngredientDto(quantity = "1.0", unitOfMeasure = "штука", description = "Помидор"),
+            IngredientDto(quantity = "100.0", unitOfMeasure = "г", description = "Листья салата"),
+            IngredientDto(quantity = "2.0", unitOfMeasure = "ст. ложки", description = "Кетчуп"),
+            IngredientDto(quantity = "2.0", unitOfMeasure = "ст. ложки", description = "Горчица"),
+            IngredientDto(quantity = "2.0", unitOfMeasure = "ст. ложки", description = "Майонез"),
+            IngredientDto(quantity = "1.0", unitOfMeasure = "штука", description = "Соленый огурец")
         ),
         method = listOf(
             "Разделите говяжий фарш на 4 равные части и сформируйте котлеты толщиной около 2 см. Сделайте пальцем небольшое углубление в центре каждой котлеты, чтобы они не деформировались при жарке.",
@@ -80,43 +80,43 @@ private val burgerRecipes = listOf(
         title = "Веганский бургер",
         ingredients = listOf(
             IngredientDto(
-                quantity = 400.0,
+                quantity = "400.0",
                 unitOfMeasure = "г",
                 description = "Консервированный нут"
             ),
-            IngredientDto(quantity = 1.0, unitOfMeasure = "штука", description = "Морковь"),
-            IngredientDto(quantity = 1.0, unitOfMeasure = "штука", description = "Лук репчатый"),
-            IngredientDto(quantity = 3.0, unitOfMeasure = "зубчика", description = "Чеснок"),
+            IngredientDto(quantity = "1.0", unitOfMeasure = "штука", description = "Морковь"),
+            IngredientDto(quantity = "1.0", unitOfMeasure = "штука", description = "Лук репчатый"),
+            IngredientDto(quantity = "3.0", unitOfMeasure = "зубчика", description = "Чеснок"),
             IngredientDto(
-                quantity = 4.0,
+                quantity = "4.0",
                 unitOfMeasure = "ст. ложки",
                 description = "Панировочные сухари"
             ),
-            IngredientDto(quantity = 2.0, unitOfMeasure = "ст. ложки", description = "Кунжут"),
+            IngredientDto(quantity = "2.0", unitOfMeasure = "ст. ложки", description = "Кунжут"),
             IngredientDto(
-                quantity = 2.0,
+                quantity = "2.0",
                 unitOfMeasure = "ст. ложки",
                 description = "Растительное масло"
             ),
             IngredientDto(
-                quantity = 4.0,
+                quantity = "4.0",
                 unitOfMeasure = "штуки",
                 description = "Веганские булочки"
             ),
-            IngredientDto(quantity = 1.0, unitOfMeasure = "штука", description = "Авокадо"),
-            IngredientDto(quantity = 100.0, unitOfMeasure = "г", description = "Шпинат"),
-            IngredientDto(quantity = 1.0, unitOfMeasure = "штука", description = "Помидор"),
+            IngredientDto(quantity = "1.0", unitOfMeasure = "штука", description = "Авокадо"),
+            IngredientDto(quantity = "100.0", unitOfMeasure = "г", description = "Шпинат"),
+            IngredientDto(quantity = "1.0", unitOfMeasure = "штука", description = "Помидор"),
             IngredientDto(
-                quantity = 4.0,
+                quantity = "4.0",
                 unitOfMeasure = "ст. ложки",
                 description = "Веганский майонез"
             ),
             IngredientDto(
-                quantity = 2.0,
+                quantity = "2.0",
                 unitOfMeasure = "ч. ложки",
                 description = "Копченая паприка"
             ),
-            IngredientDto(quantity = 1.0, unitOfMeasure = "ч. ложка", description = "Кумин (зира)")
+            IngredientDto(quantity = "1.0", unitOfMeasure = "ч. ложка", description = "Кумин (зира)")
         ),
         method = listOf(
             "Слейте жидкость с нута и разомните его вилкой в пюре, но не до однородности - оставьте немного целых горошин для текстуры.",
@@ -135,43 +135,43 @@ private val burgerRecipes = listOf(
         id = 2,
         title = "Острый гамбургер",
         ingredients = listOf(
-            IngredientDto(quantity = 400.0, unitOfMeasure = "г", description = "Говяжий фарш"),
-            IngredientDto(quantity = 2.0, unitOfMeasure = "штуки", description = "Перец халапеньо"),
+            IngredientDto(quantity = "400.0", unitOfMeasure = "г", description = "Говяжий фарш"),
+            IngredientDto(quantity = "2.0", unitOfMeasure = "штуки", description = "Перец халапеньо"),
             IngredientDto(
-                quantity = 1.0,
+                quantity = "1.0",
                 unitOfMeasure = "штука",
                 description = "Перец чили красный"
             ),
             IngredientDto(
-                quantity = 4.0,
+                quantity = "4.0",
                 unitOfMeasure = "ломтика",
                 description = "Острый сыр пепперджек"
             ),
             IngredientDto(
-                quantity = 4.0,
+                quantity = "4.0",
                 unitOfMeasure = "штуки",
                 description = "Булочки для бургера"
             ),
-            IngredientDto(quantity = 1.0, unitOfMeasure = "штука", description = "Красный лук"),
-            IngredientDto(quantity = 100.0, unitOfMeasure = "г", description = "Руккола"),
+            IngredientDto(quantity = "1.0", unitOfMeasure = "штука", description = "Красный лук"),
+            IngredientDto(quantity = "100.0", unitOfMeasure = "г", description = "Руккола"),
             IngredientDto(
-                quantity = 3.0,
+                quantity = "3.0",
                 unitOfMeasure = "ст. ложки",
                 description = "Острый соус (табаско или шрирача)"
             ),
-            IngredientDto(quantity = 3.0, unitOfMeasure = "ст. ложки", description = "Майонез"),
-            IngredientDto(quantity = 2.0, unitOfMeasure = "ст. ложки", description = "Кетчуп"),
+            IngredientDto(quantity = "3.0", unitOfMeasure = "ст. ложки", description = "Майонез"),
+            IngredientDto(quantity = "2.0", unitOfMeasure = "ст. ложки", description = "Кетчуп"),
             IngredientDto(
-                quantity = 1.0,
+                quantity = "1.0",
                 unitOfMeasure = "ч. ложка",
                 description = "Каенский перец"
             ),
             IngredientDto(
-                quantity = 1.0,
+                quantity = "1.0",
                 unitOfMeasure = "ч. ложка",
                 description = "Копченая паприка"
             ),
-            IngredientDto(quantity = 2.0, unitOfMeasure = "зубчика", description = "Чеснок")
+            IngredientDto(quantity = "2.0", unitOfMeasure = "зубчика", description = "Чеснок")
         ),
         method = listOf(
             "Мелко нарежьте один халапеньо и половину красного чили (без семян, если хотите уменьшить остроту). Добавьте их в фарш вместе с каенским перцем, копченой паприкой, измельченным чесноком, солью и перцем. Тщательно вымешайте.",

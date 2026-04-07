@@ -9,7 +9,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class IngredientUiModel(
     val name: String,
-    val amount: Double,
+    val amount: String,
     val unitOfMeasure: String,
 ) : Parcelable
 
