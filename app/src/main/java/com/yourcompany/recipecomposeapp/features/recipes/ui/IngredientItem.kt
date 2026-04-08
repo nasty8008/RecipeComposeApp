@@ -17,6 +17,7 @@ fun IngredientItem(
     ingredient: IngredientUiModel,
     modifier: Modifier = Modifier
 ) {
+    val numericAmount = ingredient.amount.toDoubleOrNull()
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
@@ -30,8 +31,12 @@ fun IngredientItem(
         )
         Text(
             text = "${
-                if (ingredient.amount % 1.0 == 0.0) ingredient.amount.toInt()
-                    .toString() else "%.1f".format(ingredient.amount)
+                if (numericAmount == null) {
+                    ingredient.amount
+                } else {
+                    if (numericAmount % 1.0 == 0.0) numericAmount.toInt().toString()
+                    else "%.1f".format(numericAmount)
+                }
             } ${ingredient.unitOfMeasure}",
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSecondary,
