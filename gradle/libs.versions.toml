@@ -14,7 +14,7 @@ coil = "3.3.0"
 lifecycleViewmodelKtx = "2.10.0"
 navigationCompose = "2.9.7"
 okhttp = "5.3.0"
-retrofit = "3.1.0-SNAPSHOT"
+retrofit = "2.11.0"
 retrofit2KotlinxSerializationConverter = "1.0.0"
 
 [libraries]
