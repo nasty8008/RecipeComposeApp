@@ -1,5 +1,6 @@
 package com.yourcompany.recipecomposeapp
 
+import android.app.Application
 import android.content.Intent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -16,6 +17,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.yourcompany.recipecomposeapp.core.network.NetworkConfig
+import com.yourcompany.recipecomposeapp.core.network.api.RecipesApiService
 import com.yourcompany.recipecomposeapp.core.ui.BottomNavigation
 import com.yourcompany.recipecomposeapp.core.ui.theme.RecipeComposeAppTheme
 import com.yourcompany.recipecomposeapp.core.utils.Constants
@@ -23,12 +27,17 @@ import com.yourcompany.recipecomposeapp.core.utils.Constants.DEEP_LINK_SCHEME
 import com.yourcompany.recipecomposeapp.core.utils.Destination
 import com.yourcompany.recipecomposeapp.core.utils.FavoriteDataStoreManager
 import com.yourcompany.recipecomposeapp.core.utils.shareRecipe
-import com.yourcompany.recipecomposeapp.data.repository.getRecipeById
+import com.yourcompany.recipecomposeapp.data.repository.RecipesRepositoryImpl
 import com.yourcompany.recipecomposeapp.features.categories.ui.CategoriesScreen
+import com.yourcompany.recipecomposeapp.features.details.presentation.model.RecipeDetailsViewModel
 import com.yourcompany.recipecomposeapp.features.details.ui.RecipeDetailsScreen
 import com.yourcompany.recipecomposeapp.features.favorites.ui.FavoritesScreen
+import com.yourcompany.recipecomposeapp.features.recipes.presentation.model.RecipesViewModel
 import com.yourcompany.recipecomposeapp.features.recipes.ui.RecipesScreen
 import kotlinx.coroutines.delay
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import retrofit2.Retrofit
 
 @Composable
 fun RecipesApp(deepLinkIntent: Intent?) {
@@ -39,6 +48,22 @@ fun RecipesApp(deepLinkIntent: Intent?) {
     val favoriteCount by favoriteManager
         .getFavoriteCountFlow()
         .collectAsState(initial = 0)
+
+    val json = Json {
+        ignoreUnknownKeys = true
+        coerceInputValues = true
+    }
+
+    val contentType = "application/json".toMediaType()
+    val retrofit: Retrofit = Retrofit.Builder()
+        .baseUrl(NetworkConfig.BASE_URL)
+        .addConverterFactory(json.asConverterFactory(contentType))
+        .build()
+    val apiService: RecipesApiService = retrofit.create(RecipesApiService::class.java)
+
+    val repository = remember {
+        RecipesRepositoryImpl(apiService)
+    }
 
     LaunchedEffect(deepLinkIntent) {
         deepLinkIntent?.data?.let { uri ->
@@ -88,7 +113,8 @@ fun RecipesApp(deepLinkIntent: Intent?) {
                                     categoryImageUrl
                                 )
                             )
-                        }
+                        },
+                        repository = repository
                     )
                 }
                 composable(route = Destination.Favorites.route) {
@@ -112,6 +138,13 @@ fun RecipesApp(deepLinkIntent: Intent?) {
                         }
                     )
                 ) { backStackEntry ->
+                    val viewModel = remember(backStackEntry) {
+                        RecipesViewModel(
+                            backStackEntry.savedStateHandle,
+                            repository
+                        )
+                    }
+
                     RecipesScreen(
                         onRecipeClick = { id, recipe ->
 //                            navController.currentBackStackEntry
@@ -119,7 +152,8 @@ fun RecipesApp(deepLinkIntent: Intent?) {
 //                                ?.set(KEY_RECIPE_OBJECT, recipe)
                             navController.navigate(Destination.RecipeDetails.createRoute(id))
                         },
-                        modifier = Modifier.padding(paddingValues)
+                        modifier = Modifier.padding(paddingValues),
+                        viewModel = viewModel
                     )
                 }
                 composable(
@@ -130,8 +164,15 @@ fun RecipesApp(deepLinkIntent: Intent?) {
                         }
                     )
                 ) { backStackEntry ->
-                    val recipeId = backStackEntry.arguments?.getInt(Constants.PARAM_RECIPE_ID) ?: 0
-                    val recipe = getRecipeById(recipeId)
+                    val viewModel = remember(backStackEntry) {
+                        RecipeDetailsViewModel(
+                            context.applicationContext as Application,
+                            backStackEntry.savedStateHandle,
+                            repository
+                        )
+                    }
+
+                    val recipe = viewModel.uiState.collectAsState().value.recipe
 
                     recipe?.let {
                         RecipeDetailsScreen(
@@ -143,6 +184,7 @@ fun RecipesApp(deepLinkIntent: Intent?) {
                                     recipeTitle = it.title
                                 )
                             },
+                            viewModel = viewModel
                         )
                     }
                 }
