@@ -24,7 +24,7 @@ import com.yourcompany.recipecomposeapp.features.recipes.presentation.model.Reci
 fun RecipesScreen(
     onRecipeClick: (Int, RecipeUiModel) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: RecipesViewModel = viewModel()
+    viewModel: RecipesViewModel
 ) {
     val state by viewModel.uiState.collectAsState()
 

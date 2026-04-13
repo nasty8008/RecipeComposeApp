@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.yourcompany.recipecomposeapp.core.utils.Constants
 import com.yourcompany.recipecomposeapp.core.utils.FavoriteDataStoreManager
-import com.yourcompany.recipecomposeapp.data.repository.getRecipeById
+import com.yourcompany.recipecomposeapp.data.repository.RecipesRepository
 import com.yourcompany.recipecomposeapp.features.recipes.presentation.model.toUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +15,11 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class RecipeDetailsViewModel(application: Application, state: SavedStateHandle) : AndroidViewModel(application) {
+class RecipeDetailsViewModel(
+    application: Application,
+    state: SavedStateHandle,
+    private val repository: RecipesRepository
+) : AndroidViewModel(application) {
 
     private val recipeId: Int = state[Constants.PARAM_RECIPE_ID] ?: 0
 
@@ -47,15 +51,16 @@ class RecipeDetailsViewModel(application: Application, state: SavedStateHandle) 
 //    }
 
     fun loadRecipe(recipeId: Int) {
-        val recipe = getRecipeById(recipeId)?.toUiModel() ?: return
-        _uiState.update {
-            it.copy(
-                recipe = recipe,
-                currentPortions = recipe.servings
-            )
-        }
-
         viewModelScope.launch {
+            val recipe = repository.getRecipe(recipeId).toUiModel()
+
+            _uiState.update {
+                it.copy(
+                    recipe = recipe,
+                    currentPortions = recipe.servings
+                )
+            }
+
             favoriteManager.getFavoriteIdsFlow()
                 .map { ids -> ids.contains(recipe.id.toString()) }
                 .collect { isFavorite ->
