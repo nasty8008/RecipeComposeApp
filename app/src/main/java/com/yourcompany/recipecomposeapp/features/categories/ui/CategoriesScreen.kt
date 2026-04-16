@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -20,14 +21,16 @@ import com.yourcompany.recipecomposeapp.R
 import com.yourcompany.recipecomposeapp.ScreenId
 import com.yourcompany.recipecomposeapp.core.ui.ScreenHeader
 import com.yourcompany.recipecomposeapp.core.ui.theme.Dimens
+import com.yourcompany.recipecomposeapp.data.repository.RecipesRepository
 import com.yourcompany.recipecomposeapp.features.categories.presentation.CategoriesViewModel
 
 @Composable
 fun CategoriesScreen(
     modifier: Modifier = Modifier,
     onCategoryClick: (Int, String, String) -> Unit,
-    viewModel: CategoriesViewModel = viewModel(),
+    repository: RecipesRepository,
 ) {
+    val viewModel: CategoriesViewModel = remember { CategoriesViewModel(repository) }
     val state by viewModel.uiState.collectAsState()
 
     Column(

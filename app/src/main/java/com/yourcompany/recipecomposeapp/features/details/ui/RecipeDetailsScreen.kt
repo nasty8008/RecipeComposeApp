@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.yourcompany.recipecomposeapp.core.ui.theme.Dimens
 import com.yourcompany.recipecomposeapp.features.details.presentation.model.RecipeDetailsViewModel
 import com.yourcompany.recipecomposeapp.features.recipes.ui.IngredientItem
@@ -25,7 +24,7 @@ import com.yourcompany.recipecomposeapp.features.recipes.ui.IngredientItem
 fun RecipeDetailsScreen(
     modifier: Modifier = Modifier,
     onShareClick: () -> Unit,
-    viewModel: RecipeDetailsViewModel = viewModel()
+    viewModel: RecipeDetailsViewModel
 ) {
     val state by viewModel.uiState.collectAsState()
 
