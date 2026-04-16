@@ -49,19 +49,22 @@ fun RecipesApp(deepLinkIntent: Intent?) {
         .getFavoriteCountFlow()
         .collectAsState(initial = 0)
 
-    val json = Json {
-        ignoreUnknownKeys = true
-        coerceInputValues = true
-    }
-
-    val contentType = "application/json".toMediaType()
-    val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl(NetworkConfig.BASE_URL)
-        .addConverterFactory(json.asConverterFactory(contentType))
-        .build()
-    val apiService: RecipesApiService = retrofit.create(RecipesApiService::class.java)
-
     val repository = remember {
+        val json = Json {
+            ignoreUnknownKeys = true
+            coerceInputValues = true
+        }
+
+        val contentType = "application/json".toMediaType()
+
+        val retrofit: Retrofit = Retrofit.Builder()
+            .baseUrl(NetworkConfig.BASE_URL)
+            .addConverterFactory(json.asConverterFactory(contentType))
+            .build()
+
+        val apiService: RecipesApiService =
+            retrofit.create(RecipesApiService::class.java)
+
         RecipesRepositoryImpl(apiService)
     }
 
