@@ -1,5 +1,6 @@
 package com.yourcompany.recipecomposeapp.features.favorites.ui
 
+import android.app.Application
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,25 +14,31 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.yourcompany.recipecomposeapp.R
 import com.yourcompany.recipecomposeapp.ScreenId
 import com.yourcompany.recipecomposeapp.core.ui.ScreenHeader
 import com.yourcompany.recipecomposeapp.features.recipes.ui.RecipeItem
 import com.yourcompany.recipecomposeapp.features.recipes.presentation.model.RecipeUiModel
 import com.yourcompany.recipecomposeapp.core.ui.theme.Dimens
+import com.yourcompany.recipecomposeapp.data.repository.RecipesRepository
 import com.yourcompany.recipecomposeapp.features.favorites.presentation.model.FavoritesViewModel
 
 
 @Composable
 fun FavoritesScreen(
     modifier: Modifier = Modifier,
-    viewModel: FavoritesViewModel = viewModel(),
+    repository: RecipesRepository,
     onRecipeClick: (Int, RecipeUiModel) -> Unit
 ) {
+    val context = LocalContext.current
+    val viewModel = remember {
+        FavoritesViewModel(context.applicationContext as Application, repository)
+    }
     val state by viewModel.uiState.collectAsState()
 
     Column(
