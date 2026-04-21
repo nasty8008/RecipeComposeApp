@@ -11,17 +11,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import coil3.compose.AsyncImage
-import coil3.request.ImageRequest
-import coil3.request.crossfade
-import coil3.request.error
-import coil3.request.placeholder
-import com.yourcompany.recipecomposeapp.R
 import com.yourcompany.recipecomposeapp.data.repository.getCategories
 import com.yourcompany.recipecomposeapp.features.categories.presentation.model.CategoryUiModel
 import com.yourcompany.recipecomposeapp.features.categories.presentation.model.toUiModel
+import com.yourcompany.recipecomposeapp.core.ui.RecipeImage
 import com.yourcompany.recipecomposeapp.core.ui.theme.Dimens
 
 @Composable
@@ -46,14 +40,9 @@ fun CategoryItem(
             .padding(Dimens.CardPadding)
     ) {
         Column {
-            AsyncImage(
+            RecipeImage(
                 modifier = Modifier.weight(1f),
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(imageUrl)
-                    .crossfade(true)
-                    .placeholder(R.drawable.img_placeholder)
-                    .error(R.drawable.img_error)
-                    .build(),
+                imageUrl = imageUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )

@@ -11,14 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import coil3.compose.AsyncImage
-import coil3.request.ImageRequest
-import coil3.request.crossfade
-import coil3.request.error
-import coil3.request.placeholder
-import com.yourcompany.recipecomposeapp.R
 import com.yourcompany.recipecomposeapp.features.recipes.presentation.model.RecipeUiModel
+import com.yourcompany.recipecomposeapp.core.ui.RecipeImage
 import com.yourcompany.recipecomposeapp.core.ui.theme.Dimens
 
 @Composable
@@ -40,14 +34,9 @@ fun RecipeItem(
             .padding(Dimens.CardPadding)
     ) {
         Column {
-            AsyncImage(
+            RecipeImage(
                 modifier = Modifier.weight(1f),
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(recipe.imageUrl)
-                    .crossfade(true)
-                    .placeholder(R.drawable.img_placeholder)
-                    .error(R.drawable.img_error)
-                    .build(),
+                imageUrl = recipe.imageUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )
