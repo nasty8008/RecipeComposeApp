@@ -43,7 +43,6 @@ android {
 
 dependencies {
     implementation(libs.androidx.room.runtime)
-    annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.core.ktx)
