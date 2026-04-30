@@ -13,5 +13,5 @@ interface CategoryDao {
     fun getAllCategories(): Flow<List<CategoryEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertOrUpdateCategory(category: CategoryEntity)
+    suspend fun insertOrUpdateCategory(categories: List<CategoryEntity>)
 }
